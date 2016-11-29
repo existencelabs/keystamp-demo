@@ -1,24 +1,128 @@
 header
-    nav.navbar.navbar-default.navbar-static-top
-     .table-responsive
-       table.table
-         tr
-           td 
-            h2 Keystamp.io V.1.0.0
-            p Proof of Process Demo
-           td
-            right
-            .container-fluid(style='padding-top:4%;font-size:1.4em;')
-             if isAlreadyLoggedin
-               a(href='#') LoggedIn menu item
-               &nbsp&nbsp
-               a(href='/logout') Logout
-               &nbsp&nbsp&nbsp&nbsp
-             else
-               a(href='login') Login
-               &nbsp&nbsp
-               a(href='register') Register
-            .container-fluid
-             if username
-              b Username: #{username}
-
+    #wrapper
+      // Navigation
+      nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='index.html') Keystamp Demo v1.0.0
+        // Top Menu Items
+        ul.nav.navbar-right.top-nav
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              i.fa.fa-envelope
+              b.caret
+            ul.dropdown-menu.message-dropdown
+              li.message-preview
+                a(href='#')
+                  .media
+                    span.pull-left
+                      img.media-object(src='http://placehold.it/50x50', alt='')
+                    .media-body
+                      h5.media-heading
+                        strong John Smith
+                      p.small.text-muted
+                        i.fa.fa-clock-o
+                        |  Yesterday at 4:32 PM
+                      p Lorem ipsum dolor sit amet, consectetur...
+              li.message-preview
+                a(href='#')
+                  .media
+                    span.pull-left
+                      img.media-object(src='http://placehold.it/50x50', alt='')
+                    .media-body
+                      h5.media-heading
+                        strong John Smith
+                      p.small.text-muted
+                        i.fa.fa-clock-o
+                        |  Yesterday at 4:32 PM
+                      p Lorem ipsum dolor sit amet, consectetur...
+              li.message-preview
+                a(href='#')
+                  .media
+                    span.pull-left
+                      img.media-object(src='http://placehold.it/50x50', alt='')
+                    .media-body
+                      h5.media-heading
+                        strong John Smith
+                      p.small.text-muted
+                        i.fa.fa-clock-o
+                        |  Yesterday at 4:32 PM
+                      p Lorem ipsum dolor sit amet, consectetur...
+              li.message-footer
+                a(href='#') Read All New Messages
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              i.fa.fa-bell
+              b.caret
+            ul.dropdown-menu.alert-dropdown
+              li
+                a(href='#')
+                  | Alert Name 
+                  span.label.label-default Alert Badge
+              li
+                a(href='#')
+                  | Alert Name 
+                  span.label.label-primary Alert Badge
+              li
+                a(href='#')
+                  | Alert Name 
+                  span.label.label-success Alert Badge
+              li
+                a(href='#')
+                  | Alert Name 
+                  span.label.label-info Alert Badge
+              li
+                a(href='#')
+                  | Alert Name 
+                  span.label.label-warning Alert Badge
+              li
+                a(href='#')
+                  | Alert Name 
+                  span.label.label-danger Alert Badge
+              li.divider
+              li
+                a(href='#') View All
+          if isAlreadyLoggedin 
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                i.fa.fa-user
+                 p=username
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href='#')
+                    i.fa.fa-fw.fa-user
+                    |  Profile
+                li
+                  a(href='#')
+                    i.fa.fa-fw.fa-envelope
+                    |  Inbox
+                li
+                  a(href='#')
+                    i.fa.fa-fw.fa-gear
+                    |  Settings
+                li.divider
+                li
+                  a(href='/logout')
+                    i.fa.fa-fw.fa-power-off
+                    |  Log Out
+          else
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                i.fa.fa-user
+                |  Not Logged In
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href='/login')
+                    i.fa.fa-fw.fa-user
+                    |  Login
+                li
+                  a(href='/register')
+                    i.fa.fa-fw.fa-gear
+                    | Signup
