@@ -1,6 +1,40 @@
-.footer
- center
-  p GPL 3.0 - Keystamp.io v1.0.0
+footer(style='color:white;')
+  #footer.footer
+    .container(style='padding-bottom:2%;padding-top:2%;')
+      .row
+        .col-lg-4.col-md-2.col-sm-4.col-xs-6.col-md-offset-3
+          h4  More
+          ul
+            li
+              a(href='https://github.com/existencelabs')  
+                i.fa.fa-fw.fa-github-square
+                |  &nbspExistencelabs repositories
+            li
+              a(href='https://github.com/existencelabs/keystamp-whitepaper')  
+                i.fa.fa-fw.fa-github-square
+                |  &nbspKeystamp Whitepaper
+            li
+              a(href='http://existencelabs.com') 
+                i.fa.fa-fw.fa-globe
+                |  &nbspExistence Labs Website 
+
+        .col-lg-3.col-md-3.col-sm-6.col-xs-12
+          h4  Contact Us
+          .input-append.newsletter-box
+            input.full.text-center(type='text', placeholder='Email ')
+            &nbsp
+            button.btn.btn-primary(type='button')
+              | info@keystamp.io 
+              i.fa.fa-long-arrow-right   
+      // /.row
+    // /.container
+  // /.footer
+  .footer-bottom(style='color:white;')
+    .container-fluid
+     center
+      p Keystamp 2016 - GPL 3.0 v.1.0.0
+  // /.footer-bottom
+
 
 
 

@@ -1,13 +1,13 @@
 extends ../layouts/noheader
 block content
   body
-    .container
-      h2 AppTemplate
-      p App boilerplate
+    .container(style='color:white;')
+      h2 Keystamp v.1.0.0
+      p.lead(style='color:grey;') Proof if Process Demo
       if info
         h4= info
       else
-        h3 Register a test account !
+        h3 Signup
       br
       form(role='form', action="/register",method="post", style='max-width: 300px;')
         .form-group
