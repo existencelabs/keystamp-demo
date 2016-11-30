@@ -8,14 +8,15 @@ block content
          a(href='http://keystamp.io', target='_blank')
            i.fa.fa-fw.fa-globe 
            |  Website
-       li
-         a(href='#')
-           i.fa.fa-fw.fa-envelope
-           |  Inbox
+       if isAlreadyLoggedin 
+         li
+           a(href='#')
+             i.fa.fa-fw.fa-envelope
+             |  Inbox
        li
          a(href='#')
            i.fa.fa-fw.fa-exchange
-           |  Send Documents
+           |  Manage Documents
        li
          a(href='#')
            i.fa.fa-fw.fa-pencil-square 
@@ -38,17 +39,31 @@ block content
    .container-fluid
      // Page Heading
      .row
-       .col-lg-9.col-md-offset-2
+       .col-lg-10.col-md-offset-2
          h1.page-header
            | Keystamps 
            small Proof of process demo
+           &nbsp&nbsp
+           button#upload.btn-lg.btn-default(role='button',href='#') Upload a document
+     .row
+       .col-lg-10.col-md-offset-2
+         form#upload_box(role='form', action="/upload", method="post")
+           .form-group
+             #drop-zone
+               | Drop files here...
+               #clickHere
+                 | or click here..
+                 input#file(type='file', name='file')
+           button.btn-sm.btn-secondary(role='submit',href='#') Upload
+         br
          ol.breadcrumb
            li.active
              i.fa.fa-dashboard
              |  System message to user here
+
      // /.row
      .row
-       .col-lg-9.col-md-offset-2
+       .col-lg-10.col-md-offset-2
          .alert.alert-info.alert-dismissable
            button.close(type='button', data-dismiss='alert', aria-hidden='true') ×
            i.fa.fa-info-circle
@@ -121,77 +136,53 @@ block content
      // /.row
 
      .row
-       .col-lg-4.col-md-offset-2
+       .col-lg-5.col-md-offset-2
          .panel.panel-default
            .panel-heading
              h3.panel-title
-               i.fa.fa-clock-o.fa-fw
-               |  Tasks Panel
+               i.fa.fa-file.fa-fw
+               |  My Documents
            .panel-body
+             h5 Send document
              .list-group
                a.list-group-item(href='#')
                  span.badge just now
-                 i.fa.fa-fw.fa-calendar
-                 |  Calendar updated
-               a.list-group-item(href='#')
-                 span.badge 4 minutes ago
-                 i.fa.fa-fw.fa-comment
-                 |  Commented on a post
-               a.list-group-item(href='#')
-                 span.badge 23 minutes ago
-                 i.fa.fa-fw.fa-truck
-                 |  Order 392 shipped
-               a.list-group-item(href='#')
-                 span.badge 46 minutes ago
-                 i.fa.fa-fw.fa-money
-                 |  Invoice 653 has been paid
-               a.list-group-item(href='#')
-                 span.badge 1 hour ago
-                 i.fa.fa-fw.fa-user
-                 |  A new user has been added
-               a.list-group-item(href='#')
-                 span.badge 2 hours ago
-                 i.fa.fa-fw.fa-check
-                 |  Completed task: "pick up dry cleaning"
-               a.list-group-item(href='#')
-                 span.badge yesterday
-                 i.fa.fa-fw.fa-globe
-                 |  Saved the world
-               a.list-group-item(href='#')
-                 span.badge two days ago
-                 i.fa.fa-fw.fa-check
-                 |  Completed task: "fix error on sales page"
-             .text-right
-               a(href='#')
-                 | View All Activity 
-                 i.fa.fa-arrow-circle-right
-       .col-lg-4
+                 i.fa.fa-file.fa-fw
+                 |  Sign Document Name - 
+                 small /document/path
+                   b &nbspupdated: 
+               a.list-group-item.button.btn.btn-sm.btn-secondary(href='#')
+                 i.fa.fa-fw.fa-envelope
+                 | Send to sign
+       .col-lg-5
          .panel.panel-default
            .panel-heading
              h3.panel-title
-               i.fa.fa-money.fa-fw
-               |  Transactions Panel
+               i.fa.fa-key.fa-fw
+               |  Crypto Panel
            .panel-body
              .table-responsive
                table.table.table-bordered.table-hover.table-striped
                  thead
                    tr
-                     th Order #
-                     th Order Date
-                     th Order Time
-                     th Amount (USD)
+                     th txId # Document name
+                       small &nbsp/doc/path
+                     th tx Date
+
                  tbody
                    tr
-                     td 3326
-                     td 10/21/2013
-                     td 3:29 PM
-                     td $321.33
+                     td f5d8ee39a430901c91a5917b9f2dc19d6d1a0e9cea205b009ca73dd04470b9a6
+                     td 11/29/2016 7:30 EDT
                    tr
-                     td 3325
-                     td 10/21/2013
-                     td 3:20 PM
-                     td $234.34
- 
+                     th tx Hash
+
+                   tr
+                     td 0a71adec1d03cb37103c89740c46a32e5fc564f7a2e4903e133172a5b9b52ded
+
+                   tr
+                    th tx xpub
+                   tr
+                    td xpub661MyMwAqRbcEyEs9gV77y1QamusXKgsbahZfALFuzyeYj6aFE1Pu6osg9VDdL3ysYXUf8RrQVhzFotuFDe4ZU9coQhUak88ore5T7JSGmF
                   .text-right
                     a(href='#')
                       | View All Transactions 
@@ -202,6 +193,7 @@ block content
     // /#wrapper
     // jQuery
     script(src='js/jquery.js')
+    script(src='js/jquery_stuff.js')
     // Bootstrap Core JavaScript
     script(src='js/bootstrap.min.js')
 
