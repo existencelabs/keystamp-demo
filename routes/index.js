@@ -25,6 +25,7 @@ exports.index = function (req, res) {
 		docs= []
 		txs=[]
 		notes =[]
+		mess= []
 		request.get(BASE_URL+'/get_my_documents/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
 			docs= JSON.parse(body).docs
 
@@ -32,6 +33,9 @@ exports.index = function (req, res) {
 			txs= JSON.parse(body).txs
 		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
 			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+			console.log(body)
 			var data = {
 				title: "Keystamp.io",
 				username: username,
@@ -40,12 +44,14 @@ exports.index = function (req, res) {
 				documents:  docs,
 				txs:txs,
 				xpub: req.session.xpub,
-				notes: notes
+				notes: notes,
+				mess: mess
 			};
 		res.render('index/index', data);
 		});
 	});
 		});
+				});
     }else{
 		// else load default index
 		var data = {

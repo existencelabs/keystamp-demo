@@ -83,8 +83,12 @@ block content
                i.fa.fa-file.fa-fw
                |  My Documents
            .panel-body
-             h5 Send documents:
+             h5(style='color:grey;')  Send documents:
              each val,index in documents
+               .text-right
+                 a(href='#')
+                   | Dismiss 
+                   i.fa.fa-arrow-circle-right
                .list-group
                  a.list-group-item(href='#')
                    span.badge=val.status
@@ -104,6 +108,7 @@ block content
                  list-group-item.button.btn.btn-block.btn-primary(href='#')
                    i.fa.fa-fw.fa-envelope
                    | Send to sign
+
        .col-lg-5
          .panel.panel-default
            .panel-heading
@@ -111,6 +116,7 @@ block content
                i.fa.fa-key.fa-fw
                |  Crypto Panel
            .panel-body
+             h5(style='color:grey;') Explore transactions:
              each val,index in txs
                .table-responsive
                  table.table.table-bordered.table-hover.table-striped
@@ -145,7 +151,7 @@ block content
                       td #{xpub}
                     .text-right
                       a(href='#')
-                        | Collapse 
+                        | Dismiss 
                         i.fa.fa-arrow-circle-right
           // /.row
         // /.container-fluid

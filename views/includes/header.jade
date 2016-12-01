@@ -24,52 +24,67 @@ header
                 i.fa.fa-envelope
                 b.caret
               ul.dropdown-menu.message-dropdown
-                li.message-preview
-                  a(href='#')
-                    .media
-                      span.pull-left
-                        img.media-object(src='http://placehold.it/50x50', alt='')
+                each val,index in mess
+                  .text-right
+                    a(href='#')
+                      | Dismiss 
+                      i.fa.fa-arrow-circle-right
+
+                  li.message-preview
+                    a(href='#')
                       .media-body
                         h5.media-heading
-                          strong John Smith
+                          strong from: #{val.from}
                         p.small.text-muted
                           i.fa.fa-clock-o
-                          |  Yesterday at 4:32 PM
-                        p Lorem ipsum dolor sit amet, consectetur...
+                          |  #{val.creation_date}
+                        p #{val.message}
+                        if val._new == true
+                          span.badge new!
                 li.message-footer
                   a(href='#') Read All New Messages
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown')
                 i.fa.fa-bell
                 b.caret
-              ul.dropdown-menu.alert-dropdown
+              ul.dropdown-menu.message-dropdown
                 - var r = 0
                 each val,index in notes
-                  if val.read == false
-                    r = r+1
-                  if index < 4
-                    li
-                      br
-                      .containder-fluid
-                        small
-                          | #{val.messages}
-                          br
-                          i #id: #{val.nid}
-                          br
-                          i #{val.createAt}
+                  .text-right
+                    a(href='#')
+                      | Dismiss 
+                      i.fa.fa-arrow-circle-right
 
-                        if val.type == 'success'
+                  li.message-preview
+                    a(href='#')
+                      .media-body
+                        h5.media-heading
+                          if val.type == 'success'
+                            br
+                            span.label.label-success #{val.type}
+                          if val.type == 'warning'
+                            br
+                            span.label.label-warning #{val.type}
+                          if val.type == 'danger'
+                            br
+                            span.label.label-danger #{val.type}
+                          if val.type == 'default'
+                            br
+                            span.label.label-default #{val.type}
+                            br
+                          if val.read == false
+                            &nbsp
+                            span.badge new!
                           br
-                          span.label.label-success #{val.type}
-                        if val.type == 'warning'
-                          br
-                          span.label.label-warning #{val.type}
-                        if val.type == 'danger'
-                          br
-                          span.label.label-danger #{val.type}
-                        if val.type == 'default'
-                          br
-                          span.label.label-default #{val.type}
+                          p
+                            br
+                            | #{val.messages}
+                            br
+                          small
+                            i #id: #{val.nid}
+                            br
+                            i #{val.createAt}
+
                 li.divider
                 li
                   a(href='#') View All
