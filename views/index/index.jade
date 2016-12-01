@@ -87,7 +87,10 @@ block content
                .list-group
                  a.list-group-item(href='#')
                    span.badge=val.status
-                   i.fa.fa-file.fa-fw
+                   if val.encrypted
+                     i.fa.fa-lock.fa-fw
+                   else
+                     i.fa.fa-file.fa-fw
                    |  Sign #{val.filename} - 
                    small #{val.path}
                      b &nbspupdated:
