@@ -17,11 +17,12 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var request = require('request')
 
 //main config
 var app = express();
 config = require('./config.js');
-
+var BASE_URL = config.api
 var server = require('http').createServer(app);
 app.set('port', process.env.PORT || config.node_web_server_port);
 app.set('views', path.join(__dirname + '/views'));
@@ -42,7 +43,33 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'app')));
 
 // routes
+app.use(function(req, res, next) {
+    if(req.user) {
+		
+	Account.findOne({"username": req.user.username}, function(err, usr) {
+		if (err || !usr){
+			console.log('user could not be found')
+		}
+		req.session.uid = usr.uid
+		req.session.xpub = usr.user_pub_key || 'xpub661MyMwAqRbcEyEs9gV77y1QamusXKgsbahZfALFuzyeYj6aFE1Pu6osg9VDdL3ysYXUf8RrQVhzFotuFDe4ZU9coQhUak88ore5T7JSGmF'
+		req.session.save()
+		console.log('session uid:'+req.session.uid )
+		request.post({url: BASE_URL+'/auth',form: {app_secret:config.app_secret, app_id: config.app_id}},function (error, response, body) {
+			console.log('app id '+config.app_id)
+			config.token = JSON.parse(body).token
+			req.session.token = JSON.parse(body).token
+			req.session.save()
+		console.log('session token:'+req.session.token )
+		next()
+		});
+	})
+	}else{
+		next()
+	}
+	
+})
 require('./routes/routes')(app);
+
 console.log(("Express server listening on port " + app.get('port')));
 
 //passport config

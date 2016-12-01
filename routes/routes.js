@@ -13,7 +13,7 @@ var passport = require('passport');
 var Account = require('../models/account');
 
 module.exports = function (app) {
-	
+
 	//Main routes
 	///////////////////////////
 	app.get('/', index.index);

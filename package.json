@@ -29,6 +29,7 @@
     "passport-local-mongoose": "~0.2.5",
     "method-override" : "2.3.5",
     "morgan" : "1.6.1",
+    "request": "2.79.0",
     "path" : "0.12.7"
   }
 }

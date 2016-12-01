@@ -4,19 +4,11 @@ block content
    // Sidebar Menu Items - These collapse to the responsive navigation menu on small screens
    .collapse.navbar-collapse.navbar-ex1-collapse
      ul.nav.navbar-nav.side-nav
-       li.active
-         a(href='http://keystamp.io', target='_blank')
-           i.fa.fa-fw.fa-globe 
-           |  Website
        if isAlreadyLoggedin 
          li
            a(href='#')
              i.fa.fa-fw.fa-envelope
              |  Inbox
-       li
-         a(href='#')
-           i.fa.fa-fw.fa-exchange
-           |  Manage Documents
        li
          a(href='#')
            i.fa.fa-fw.fa-pencil-square 
@@ -27,12 +19,23 @@ block content
            |  Verify Document
        li
          a(href='#')
-           i.fa.fa-fw.fa-key
-           |  Get an Xpub key
-       li
-         a(href='#')
            i.fa.fa-fw.fa-link
            | Blockchain Explorer
+       li
+         a(href='#')
+           i.fa.fa-fw.fa-exchange 
+           |  Create a #Group
+       li.dropdown
+         a.dropdown-toggle(href='#', data-toggle='dropdown')
+           i.fa.fa-user
+           |  My #Groups
+           b.caret
+         ul.dropdown-menu
+           li
+             a(href='#')
+              i.fa.fa-fw.fa-user
+              | #groupname
+
 
    // /.navbar-collapse
   #page-wrapper
@@ -71,70 +74,6 @@ block content
             |&nbsp
            a.alert-link(href='https://github.com/existencelabs/keystamp-whitepaper') Keystamp Whitepaper
            |  on Github!
-          // /.row
-          .row
-            .col-lg-3.col-md-6
-              .panel.panel-primary
-                .panel-heading
-                  .row
-                    .col-xs-3
-                      i.fa.fa-comments.fa-5x
-                    .col-xs-9.text-right
-                      .huge 26
-                      div New Comments!
-                a(href='#')
-                  .panel-footer
-                    span.pull-left View Details
-                    span.pull-right
-                      i.fa.fa-arrow-circle-right
-                    .clearfix
-            .col-lg-3.col-md-6
-              .panel.panel-green
-                .panel-heading
-                  .row
-                    .col-xs-3
-                      i.fa.fa-tasks.fa-5x
-                    .col-xs-9.text-right
-                      .huge 12
-                      div New Tasks!
-                a(href='#')
-                  .panel-footer
-                    span.pull-left View Details
-                    span.pull-right
-                      i.fa.fa-arrow-circle-right
-                    .clearfix
-            .col-lg-3.col-md-6
-              .panel.panel-yellow
-                .panel-heading
-                  .row
-                    .col-xs-3
-                      i.fa.fa-shopping-cart.fa-5x
-                    .col-xs-9.text-right
-                      .huge 124
-                      div New Orders!
-                a(href='#')
-                  .panel-footer
-                    span.pull-left View Details
-                    span.pull-right
-                      i.fa.fa-arrow-circle-right
-                    .clearfix
-            .col-lg-3.col-md-6
-              .panel.panel-red
-                .panel-heading
-                  .row
-                    .col-xs-3
-                      i.fa.fa-support.fa-5x
-                    .col-xs-9.text-right
-                      .huge 13
-                      div Support Tickets!
-                a(href='#')
-                  .panel-footer
-                    span.pull-left View Details
-                    span.pull-right
-                      i.fa.fa-arrow-circle-right
-                    .clearfix
-     // /.row
-
      .row
        .col-lg-5.col-md-offset-2
          .panel.panel-default
@@ -143,17 +82,18 @@ block content
                i.fa.fa-file.fa-fw
                |  My Documents
            .panel-body
-             h5 Send document
-             .list-group
-               a.list-group-item(href='#')
-                 span.badge just now
-                 i.fa.fa-file.fa-fw
-                 |  Sign Document Name - 
-                 small /document/path
-                   b &nbspupdated: 
-               a.list-group-item.button.btn.btn-sm.btn-secondary(href='#')
-                 i.fa.fa-fw.fa-envelope
-                 | Send to sign
+             h5 Send documents:
+             each val,index in documents
+               .list-group
+                 a.list-group-item(href='#')
+                   span.badge=val.status
+                   i.fa.fa-file.fa-fw
+                   |  Sign #{val.filename} - 
+                   small /document/path
+                     b &nbspupdated: 
+                 a.list-group-item.button.btn.btn-sm.btn-secondary(href='#')
+                   i.fa.fa-fw.fa-envelope
+                   | Send to sign
        .col-lg-5
          .panel.panel-default
            .panel-heading
@@ -161,30 +101,31 @@ block content
                i.fa.fa-key.fa-fw
                |  Crypto Panel
            .panel-body
-             .table-responsive
-               table.table.table-bordered.table-hover.table-striped
-                 thead
-                   tr
-                     th(style='font-style:italic;') tx Date:  11/29/2016 7:30 EDT
-                   tr
-                     th txId # Document name
-                       small &nbsp/doc/path
+             each val,index in txs
+               .table-responsive
+                 table.table.table-bordered.table-hover.table-striped
+                   thead
+                     tr
+                       th(style='font-style:italic;') tx Date: #{val.tx_date}
+                     tr
+                       th txId # #{val.filename}
+                         small &nbsp#{val.path}
 
-                 tbody
-                   tr
-                     td f5d8ee39a430901c91a5917b9f2dc19d6d1a0e9cea205b009ca73dd04470b9a6
-                   tr
-                     th tx Hash
-                   tr
-                     td 0a71adec1d03cb37103c89740c46a32e5fc564f7a2e4903e133172a5b9b52ded
-                   tr
-                    th tx xpub
-                   tr
-                    td xpub661MyMwAqRbcEyEs9gV77y1QamusXKgsbahZfALFuzyeYj6aFE1Pu6osg9VDdL3ysYXUf8RrQVhzFotuFDe4ZU9coQhUak88ore5T7JSGmF
-                  .text-right
-                    a(href='#')
-                      | View All Transactions 
-                      i.fa.fa-arrow-circle-right
+                   tbody
+                     tr
+                       td #{val.txid}
+                     tr
+                       th file Hash
+                     tr
+                       td #{val.filehash}
+                     tr
+                      th tx xpub
+                     tr
+                      td #{xpub}
+                    .text-right
+                      a(href='#')
+                        | Collapse 
+                        i.fa.fa-arrow-circle-right
           // /.row
         // /.container-fluid
       // /#page-wrapper
