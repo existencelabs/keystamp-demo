@@ -60,34 +60,36 @@ block content
            if notes
              ol.breadcrumb
                li.active
-                 i.fa.fa-info
+                 i.fa.fa-info-circle
                  |  &nbsp Log in to use all Keystamp features !
      // /.row
      .row.vote-results2
-       #upload.modal.fade(tabindex='-1', role='dialog', aria-labelledby='contactLabel')
-       .modal-dialog
-        .panel.panel-primary
+      .col-lg-5.col-md-offset-2
+        #upload.modal.fade(tabindex='-1', role='dialog', aria-labelledby='contactLabel')
+        .modal-dialog
+         .panel.panel-default
           .panel-heading
             button#close2.close(type='button', data-dismiss='modal', aria-hidden='true') ×
             h4#contactLabel.panel-title
               span.fa.fa-bug
-              |  Report bugs and comments to help the Keystamp team
+              |  Upload a file to be encrypted with sha256 encoding
           form(action='/upload', method='post', accept-charset='utf-8')
             .modal-body(style='padding: 5px;')
               .row
-                .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
-                  input.file(type='file', name='file')
+                .col-lg-12.col-md-12.col-sm-12(style='padding-bottom: 10px;')
+                  input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
             .panel-footer(style='margin-bottom:-14px;')
-              input.btn.btn-success(type='submit', value='Send')
+              input.btn.btn-primary(type='submit', value='Send')
               &nbsp
               input.btn.btn-danger(type='reset', value='Clear')
               &nbsp
               button#cancel2.btn.btn-default.btn-close(style='float: right;', type='button', data-dismiss='modal') Close
      // /.row
      .row.vote-results
-       #contact.modal.fade(tabindex='-1', role='dialog', aria-labelledby='contactLabel')
-       .modal-dialog
-        .panel.panel-primary
+      .col-lg-5.col-md-offset-2
+        #contact.modal.fade(tabindex='-1', role='dialog', aria-labelledby='contactLabel')
+        .modal-dialog
+         .panel.panel-default
           .panel-heading
             button#close.close(type='button', data-dismiss='modal', aria-hidden='true') ×
             h4#contactLabel.panel-title
@@ -110,7 +112,7 @@ block content
                 .col-lg-12.col-md-12.col-sm-12
                   textarea.form-control(style='resize:vertical;', placeholder='Message...', rows='6', name='comment', required='')
             .panel-footer(style='margin-bottom:-14px;')
-              input.btn.btn-success(type='submit', value='Send')
+              input.btn.btn-primary(type='submit', value='Send')
               &nbsp
               input.btn.btn-danger(type='reset', value='Clear')
               &nbsp

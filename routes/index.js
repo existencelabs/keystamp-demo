@@ -65,3 +65,22 @@ exports.index = function (req, res) {
 		res.render('index/index', data);
 	}
 };
+exports.upload= function (req, res) {
+	var path = req.body.path
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+	
+	request.post({url:BASE_URL+'/upload/'+req.session.uid+'/?token='+req.session.token, form:{
+		path: path
+		}},function (error, response, body) {
+			res.redirect('/')
+	})
+	}else{
+	res.redirect('/login')
+	}
+}
