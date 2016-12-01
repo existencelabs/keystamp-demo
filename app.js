@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'app')));
 // routes
 app.use(function(req, res, next) {
     if(req.user) {
-		
+		if( !req.session.token || !req.session.uid || !req.session.token){
 	Account.findOne({"username": req.user.username}, function(err, usr) {
 		if (err || !usr){
 			console.log('user could not be found')
@@ -63,6 +63,9 @@ app.use(function(req, res, next) {
 		next()
 		});
 	})
+}else{
+		next()
+	}
 	}else{
 		next()
 	}
