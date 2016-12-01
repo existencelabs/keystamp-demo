@@ -43,10 +43,33 @@ header
                 i.fa.fa-bell
                 b.caret
               ul.dropdown-menu.alert-dropdown
-                li
-                  a(href='#')
-                    | Alert Name 
-                    span.label.label-default Alert Badge
+                - var r = 0
+                each val,index in notes
+                  if val.read == false
+                    r = r+1
+                  if index < 4
+                    li
+                      br
+                      .containder-fluid
+                        small
+                          | #{val.messages}
+                          br
+                          i #id: #{val.nid}
+                          br
+                          i #{val.createAt}
+
+                        if val.type == 'success'
+                          br
+                          span.label.label-success #{val.type}
+                        if val.type == 'warning'
+                          br
+                          span.label.label-warning #{val.type}
+                        if val.type == 'danger'
+                          br
+                          span.label.label-danger #{val.type}
+                        if val.type == 'default'
+                          br
+                          span.label.label-default #{val.type}
                 li.divider
                 li
                   a(href='#') View All

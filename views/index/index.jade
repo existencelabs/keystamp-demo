@@ -23,11 +23,11 @@ block content
            | Blockchain Explorer
        li
          a(href='#')
-           i.fa.fa-fw.fa-exchange 
+           i.fa.fa-fw.fa-cogs 
            |  Create a #Group
        li.dropdown
          a.dropdown-toggle(href='#', data-toggle='dropdown')
-           i.fa.fa-user
+           i.fa.fa-users 
            |  My #Groups
            b.caret
          ul.dropdown-menu
@@ -59,10 +59,11 @@ block content
                  input#file(type='file', name='file')
            button.btn-sm.btn-secondary(role='submit',href='#') Upload
          br
-         ol.breadcrumb
-           li.active
-             i.fa.fa-dashboard
-             |  System message to user here
+         if notes
+           ol.breadcrumb
+             li.active
+               i.fa.fa-dashboard
+               |  &nbsp#{notes[notes.length-1].messages}
 
      // /.row
      .row
@@ -91,7 +92,9 @@ block content
                      i.fa.fa-lock.fa-fw
                    else
                      i.fa.fa-file.fa-fw
-                   |  Sign #{val.filename}
+                   | &nbsp#{val.filename}
+                   br
+                   small id# #{val.doc_id}
                    br
                    small #{val.path}
                    br
@@ -116,6 +119,8 @@ block content
                        th(style='font-style:italic;') 
                          | #{val.tx_date}
                          br
+                         small id# #{val._id}
+                         br
                          small &nbsp#{val.path}
                          br
                          small &nbsp#{val.filename}
@@ -132,7 +137,10 @@ block content
                      tr
                        td #{val.filehash}
                      tr
-                      th #{username}'s xpub
+                      th 
+                        | #{username}'s xpub
+                        br
+                        small Key Path: &nbsp#{val.user_key_path}
                      tr
                       td #{xpub}
                     .text-right

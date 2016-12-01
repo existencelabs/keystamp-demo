@@ -24,12 +24,14 @@ exports.index = function (req, res) {
 		isAlreadyLoggedin = true;
 		docs= []
 		txs=[]
+		notes =[]
 		request.get(BASE_URL+'/get_my_documents/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
 			docs= JSON.parse(body).docs
 
 		request.get(BASE_URL+'/get_my_tx/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
 			txs= JSON.parse(body).txs
-			console.log(txs)
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
 			var data = {
 				title: "Keystamp.io",
 				username: username,
@@ -37,11 +39,13 @@ exports.index = function (req, res) {
 				page: '/index',
 				documents:  docs,
 				txs:txs,
-				xpub: req.session.xpub
+				xpub: req.session.xpub,
+				notes: notes
 			};
 		res.render('index/index', data);
 		});
 	});
+		});
     }else{
 		// else load default index
 		var data = {
