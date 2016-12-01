@@ -93,9 +93,11 @@ block content
                      i.fa.fa-file.fa-fw
                    |  Sign #{val.filename} - 
                    small #{val.path}
-                     b &nbspupdated:
+                    
                    br
                    small #{val.filehash} 
+                   br
+                   small Last Updated: #{val.lastUpdated} 
                  list-group-item.button.btn.btn-block.btn-primary(href='#')
                    i.fa.fa-fw.fa-envelope
                    | Send to sign
@@ -111,10 +113,16 @@ block content
                  table.table.table-bordered.table-hover.table-striped
                    thead
                      tr
-                       th(style='font-style:italic;') tx Date: #{val.tx_date}
-                     tr
-                       th txId # #{val.filename}
+                       th(style='font-style:italic;') 
+                         | #{val.tx_date}
+                         br
                          small &nbsp#{val.path}
+                         br
+                         small &nbsp#{val.filename}
+                     tr
+                       th 
+                         | txId # 
+                         br
 
                    tbody
                      tr
@@ -124,7 +132,7 @@ block content
                      tr
                        td #{val.filehash}
                      tr
-                      th tx xpub
+                      th #{username}'s xpub
                      tr
                       td #{xpub}
                     .text-right
