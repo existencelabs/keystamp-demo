@@ -1,0 +1,96 @@
+
+Bootsnipp
+Tools 
+Snippets 
+Register
+Login
+
+"Contact and Vote modal"
+Bootstrap 3.1.0 Snippet by ErikAlserda
+3.1.0 jQuery modal forms modal contact
+
+ PreviewHTMLCSSJS    Fork this  41.8K   77 Fav  
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+body { margin-top:20px; }
+.modal-body:not(.two-col) { padding:0px }
+.glyphicon { margin-right:5px; }
+.glyphicon-new-window { margin-left:5px; }
+.modal-body .radio,.modal-body .checkbox {margin-top: 0px;margin-bottom: 0px;}
+.modal-body .list-group {margin-bottom: 0;}
+.margin-bottom-none { margin-bottom: 0; }
+.modal-body .radio label,.modal-body .checkbox label { display:block; }
+.modal-footer {margin-top: 0px;}
+@media screen and (max-width: 325px){
+    .btn-close {
+        margin-top: 5px;
+        width: 100%;
+    }
+    .btn-results {
+        margin-top: 5px;
+        width: 100%;
+    }
+    .btn-vote{
+        margin-top: 5px;
+        width: 100%;
+    }
+    
+}
+.modal-footer .btn+.btn {
+    margin-left: 0px;
+}
+.progress {
+    margin-right: 10px;
+}
+Similar snippets: See More
+1.5K  0 
+Contact and Vote modal
+
+
+5.3K  5 
+"Contact and Vote modal"
+
+
+123  0 
+contact modal
+
+
+1.0K  0 
+Vote up and down script using bootstrap
+
+
+
+Comments:
+
+ Follow @bootsnipp  Tweet
+Bootsnipp.com © 2015 Dan's Tools | Site Privacy policy | Advertise | Featured snippets are MIT license.

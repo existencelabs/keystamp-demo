@@ -36,7 +36,6 @@ block content
               i.fa.fa-fw.fa-user
               | #groupname
 
-
    // /.navbar-collapse
   #page-wrapper
    .container-fluid
@@ -47,25 +46,75 @@ block content
            | Keystamps 
            small Proof of process demo
            &nbsp&nbsp
-           button#upload.btn-lg.btn-default(role='button',href='#') Upload a document
-     .row
-       .col-lg-10.col-md-offset-2
-         form#upload_box(role='form', action="/upload", method="post")
-           .form-group
-             #drop-zone
-               | Drop files here...
-               #clickHere
-                 | or click here..
-                 input#file(type='file', name='file')
-           button.btn-sm.btn-secondary(role='submit',href='#') Upload
-         br
-         if notes
-           ol.breadcrumb
-             li.active
-               i.fa.fa-dashboard
-               |  &nbsp#{notes[notes.length-1].messages}
-
+           if isAlreadyLoggedin
+             button#upload_document.btn-lg.btn-default(role='button',href='#') Upload a document
+         if isAlreadyLoggedin
+           br
+           if notes
+             ol.breadcrumb
+               li.active
+                 i.fa.fa-dashboard
+                 |  &nbsp#{notes[notes.length-1].messages}
+         else
+           br
+           if notes
+             ol.breadcrumb
+               li.active
+                 i.fa.fa-info
+                 |  &nbsp Log in to use all Keystamp features !
      // /.row
+     .row.vote-results2
+       #upload.modal.fade(tabindex='-1', role='dialog', aria-labelledby='contactLabel')
+       .modal-dialog
+        .panel.panel-primary
+          .panel-heading
+            button#close2.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4#contactLabel.panel-title
+              span.fa.fa-bug
+              |  Report bugs and comments to help the Keystamp team
+          form(action='/upload', method='post', accept-charset='utf-8')
+            .modal-body(style='padding: 5px;')
+              .row
+                .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
+                  input.file(type='file', name='file')
+            .panel-footer(style='margin-bottom:-14px;')
+              input.btn.btn-success(type='submit', value='Send')
+              &nbsp
+              input.btn.btn-danger(type='reset', value='Clear')
+              &nbsp
+              button#cancel2.btn.btn-default.btn-close(style='float: right;', type='button', data-dismiss='modal') Close
+     // /.row
+     .row.vote-results
+       #contact.modal.fade(tabindex='-1', role='dialog', aria-labelledby='contactLabel')
+       .modal-dialog
+        .panel.panel-primary
+          .panel-heading
+            button#close.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+            h4#contactLabel.panel-title
+              span.fa.fa-bug
+              |  Report bugs and comments to help the Keystamp team
+          form(action='#', method='post', accept-charset='utf-8')
+            .modal-body(style='padding: 5px;')
+              .row
+                .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
+                  input.form-control(name='firstname', placeholder='Firstname', type='text', required='', autofocus='')
+                .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
+                  input.form-control(name='lastname', placeholder='Lastname', type='text', required='')
+              .row
+                .col-lg-12.col-md-12.col-sm-12(style='padding-bottom: 10px;')
+                  input.form-control(name='email', placeholder='E-mail', type='text', required='')
+              .row
+                .col-lg-12.col-md-12.col-sm-12(style='padding-bottom: 10px;')
+                  input.form-control(name='subject', placeholder='Subject', type='text', required='')
+              .row
+                .col-lg-12.col-md-12.col-sm-12
+                  textarea.form-control(style='resize:vertical;', placeholder='Message...', rows='6', name='comment', required='')
+            .panel-footer(style='margin-bottom:-14px;')
+              input.btn.btn-success(type='submit', value='Send')
+              &nbsp
+              input.btn.btn-danger(type='reset', value='Clear')
+              &nbsp
+              button#cancel.btn.btn-default.btn-close(style='float: right;', type='button', data-dismiss='modal') Close
      .row
        .col-lg-10.col-md-offset-2
          .alert.alert-info.alert-dismissable
@@ -84,7 +133,8 @@ block content
                |  My Documents
            .panel-body
              h5(style='color:grey;')  Send documents:
-             each val,index in documents
+             if isAlreadyLoggedin
+              each val,index in documents
                .text-right
                  a(href='#')
                    | Dismiss 
@@ -117,7 +167,8 @@ block content
                |  Crypto Panel
            .panel-body
              h5(style='color:grey;') Explore transactions:
-             each val,index in txs
+             if isAlreadyLoggedin
+              each val,index in txs
                .table-responsive
                  table.table.table-bordered.table-hover.table-striped
                    thead
