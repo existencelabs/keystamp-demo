@@ -18,7 +18,7 @@ header
             a#dropdown-results(href='#', data-target='#contact')
               i.fa.fa-fw.fa-bug 
               |  Bug Reports
-          if isAlreadyLoggedin 
+          if isAlreadyLoggedin && page != '/inbox'
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown')
                 i.fa.fa-envelope
@@ -43,6 +43,7 @@ header
                           span.badge new!
                 li.message-footer
                   a(href='#') Read All New Messages
+          if isAlreadyLoggedin
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown')
                 i.fa.fa-bell
@@ -95,10 +96,6 @@ header
                 | &nbsp#{username}
                 b.caret
               ul.dropdown-menu
-                li
-                  a(href='#')
-                    i.fa.fa-fw.fa-envelope
-                    |  Inbox
                 li.divider
                 li
                   a(href='/logout')

@@ -6,7 +6,7 @@ block content
      ul.nav.navbar-nav.side-nav
        if isAlreadyLoggedin 
          li
-           a(href='/inbox')
+           a(href='#')
              i.fa.fa-fw.fa-envelope
              |  Inbox
        li.dropdown
@@ -99,7 +99,7 @@ block content
             h4#contactLabel.panel-title
               span.fa.fa-bug
               |  Report bugs and comments to help the Keystamp team
-          form(action='#', method='post', accept-charset='utf-8')
+          form(action='/report', method='post', accept-charset='utf-8')
             .modal-body(style='padding: 5px;')
               .row
                 .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
@@ -130,53 +130,60 @@ block content
             |&nbsp
            a.alert-link(href='https://github.com/existencelabs/keystamp-whitepaper') Keystamp Whitepaper
            |  on Github!
-     if isAlreadyLoggedin
-       .row
-         .col-lg-5.col-md-offset-2
-           .panel.panel-default
-             .panel-heading
-               h3.panel-title
-                 i.fa.fa-file.fa-fw
-                 |  My Documents
-             .panel-body
-               h5(style='color:grey;')  Send documents:
-
-              each val,index in documents
+     .row
+       .col-lg-5.col-md-offset-2
+         .panel.panel-default
+           .panel-heading
+             h3.panel-title
+               i.fa.fa-file.fa-pencil-square 
+               |  My Inbox
+           .panel-body
+             h5(style='color:grey;')  Sign documents or answer to messages:
+             if isAlreadyLoggedin
+              each val,index in sent
                .text-right
                  a(href='#')
                    | Dismiss 
                    i.fa.fa-arrow-circle-right
                .list-group
                  a.list-group-item(href='#')
-                   span.badge=val.status
-                   if val.encrypted
-                     i.fa.fa-lock.fa-fw
-                   else
-                     i.fa.fa-file.fa-fw
-                   | &nbsp#{val.filename}
+                   if val.isSigned
+                     span.label.success Signed
+                   if val.isSigned
+                     span.label.default To sign
+                   | &nbsp#{val.message}
                    br
-                   small id# #{val.doc_id}
+                   small id# #{val._id}
                    br
-                   small #{val.path}
+                   small From: #{val.from}
                    br
-                   small #{val.filehash} 
+                   small To: #{val.to} 
                    br
-                   small Last Updated: #{val.lastUpdated} 
-                 list-group-item.button.btn.btn-block.btn-primary(href='#')
-                   i.fa.fa-fw.fa-envelope
-                   | &nbspSend file to user 
-                 list-group-item.button.btn.btn-block.btn-default(href='#')
-                   i.fa.fa-fw.fa-check-circle
-                   | &nbspVerify Document
-         .col-lg-5
-           .panel.panel-default
-             .panel-heading
-               h3.panel-title
-                 i.fa.fa-key.fa-fw
-                 |  Crypto Panel
-             .panel-body
-               h5(style='color:grey;') Explore transactions:
-
+                   small Last Updated: #{val.creation_date}
+                   if val.path != null
+                     br
+                     small Path: #{val.path}
+                 if val.path != null
+                   if !isSigned  
+                     list-group-item.button.btn.btn-block.btn-primary(href='#')
+                       i.fa.fa-fw.fa-pencil-square 
+                       | &nbspSign Document
+                   list-group-item.button.btn.btn-block.btn-default(href='#')
+                     i.fa.fa-fw.fa-check-circle
+                     | &nbspVerify Document
+                 else
+                   list-group-item.button.btn.btn-block.btn-default(href='#')
+                     i.fa.fa-fw.fa-envelope
+                     | &nbsp Answer message
+       .col-lg-5
+         .panel.panel-default
+           .panel-heading
+             h3.panel-title
+               i.fa.fa-key.fa-fw
+               |  Crypto Panel
+           .panel-body
+             h5(style='color:grey;') Explore transactions:
+             if isAlreadyLoggedin
               each val,index in txs
                .table-responsive
                  table.table.table-bordered.table-hover.table-striped
@@ -213,24 +220,10 @@ block content
                       a(href='#')
                         | Dismiss 
                         i.fa.fa-arrow-circle-right
-     if isAlreadyLoggedin != true
-       .row
-         .col-lg-10.col-md-offset-2
-           .container-fluid 
-             h3(style='color:grey;') Sign In to Keystamp Demo v.1.0.0
-             br
-             form(role='form', action="/login",method="post", style='max-width: 300px;')
-               .form-group
-                   input.form-control(type='text', name="username", placeholder='Enter Username')
-               .form-group
-                 input.form-control(type='password', name="password", placeholder='Password')
-               button.btn.btn-default(type='submit') Submit
-               &nbsp;
-               a(href='/')
-                 button.btn.btn-primary(type="button") Cancel
-               h5 
-                 a(href='/register') or signup
           // /.row
+     .row
+       .col-lg-10.col-md-offset-2
+         iframe(src='https://live.blockcypher.com/')
         // /.container-fluid
       // /#page-wrapper
     // /#wrapper
@@ -239,4 +232,5 @@ block content
     script(src='js/jquery_stuff.js')
     // Bootstrap Core JavaScript
     script(src='js/bootstrap.min.js')
+
 

@@ -30,7 +30,8 @@
     "method-override" : "2.3.5",
     "morgan" : "1.6.1",
     "request": "2.79.0",
-    "path" : "0.12.7"
+    "path" : "0.12.7",
+    "mime": "1.3.4"
   }
 }
 

@@ -17,8 +17,9 @@ module.exports = function (app) {
 	//Main routes
 	///////////////////////////
 	app.get('/', index.index);
+	app.get('/inbox', index.inbox);
 	app.post('/upload', index.upload);
-	
+	app.post('/upload_download', index.upload_download);
 	// auth routes
 	/////////////////////////////
 	app.get('/login', function(req, res) {

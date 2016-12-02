@@ -47,6 +47,7 @@ app.use(function(req, res, next) {
     if(req.user) {
 		if( !req.session.token || !req.session.uid || !req.session.token){
 	Account.findOne({"username": req.user.username}, function(err, usr) {
+
 		if (err || !usr){
 			console.log('user could not be found')
 		}
