@@ -6,9 +6,9 @@ block content
      ul.nav.navbar-nav.side-nav
        if isAlreadyLoggedin 
          li
-           a(href='#')
-             i.fa.fa-fw.fa-envelope
-             |  Inbox
+           a(href='/')
+             i.fa.fa-fw.fa-file
+             |  Manage Documents
        li.dropdown
          a.dropdown-toggle(href='#', data-toggle='dropdown')
            i.fa.fa-lock
@@ -221,9 +221,6 @@ block content
                         | Dismiss 
                         i.fa.fa-arrow-circle-right
           // /.row
-     .row
-       .col-lg-10.col-md-offset-2
-         iframe(src='https://live.blockcypher.com/')
         // /.container-fluid
       // /#page-wrapper
     // /#wrapper

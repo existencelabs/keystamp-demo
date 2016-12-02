@@ -139,8 +139,7 @@ block content
                  i.fa.fa-file.fa-fw
                  |  My Documents
              .panel-body
-               h5(style='color:grey;')  Send documents:
-
+              h5(style='color:grey;')  Send documents:
               each val,index in documents
                .text-right
                  a(href='#')
@@ -175,8 +174,7 @@ block content
                  i.fa.fa-key.fa-fw
                  |  Crypto Panel
              .panel-body
-               h5(style='color:grey;') Explore transactions:
-
+              h5(style='color:grey;') Explore transactions:
               each val,index in txs
                .table-responsive
                  table.table.table-bordered.table-hover.table-striped
@@ -213,6 +211,7 @@ block content
                       a(href='#')
                         | Dismiss 
                         i.fa.fa-arrow-circle-right
+     br
      if isAlreadyLoggedin != true
        .row
          .col-lg-10.col-md-offset-2
