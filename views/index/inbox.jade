@@ -8,7 +8,33 @@ block content
          li
            a(href='/')
              i.fa.fa-fw.fa-file
-             |  Manage Documents
+             |  Manage documents
+       li.dropdown
+         a.dropdown-toggle(href='#', data-toggle='dropdown')
+           i.fa.fa-key
+           |  &nbspManage keys
+           b.caret
+         ul.dropdown-menu
+           li
+             a(href='#')
+               i.fa.fa-fw.fa-key
+               |  Get a public key
+           li
+             a(href='#')
+               i.fa.fa-fw.fa-key
+               |  Get a master key
+           li
+             form(action='#', method='post', accept-charset='utf-8')
+               input.form-control(type='text', name='path',required='true', placeholder='Enter master key')
+               br
+               input.btn-block.btn-primary(type='submit', value='Get derived key')
+           if isAlreadyLoggedin 
+             li
+               form(action='#', method='post', accept-charset='utf-8')
+                 input.form-control(type='text', name='path',required='true', placeholder='Enter public key')
+                 br
+                 input.btn-block.btn-primary(type='submit', value='Associate publick key')
+
        li.dropdown
          a.dropdown-toggle(href='#', data-toggle='dropdown')
            i.fa.fa-lock
@@ -20,6 +46,28 @@ block content
                input.form-control(type='text', name='path',required='true', placeholder='Enter file url link')
                br
                input.btn-block.btn-primary(type='submit', value='Encrypt')
+       li.dropdown
+         a.dropdown-toggle(href='#', data-toggle='dropdown')
+           i.fa.fa-pencil-square
+           |  &nbspSign document
+           b.caret
+         ul.dropdown-menu
+           li
+             form(action='#', method='post', accept-charset='utf-8')
+               input.form-control(type='text', name='path',required='true', placeholder='Enter file url link')
+               br
+               input.btn-block.btn-primary(type='submit', value='Sign')
+       li.dropdown
+         a.dropdown-toggle(href='#', data-toggle='dropdown')
+           i.fa.fa-check
+           |  &nbspVerify document
+           b.caret
+         ul.dropdown-menu
+           li
+             form(action='#', method='post', accept-charset='utf-8')
+               input.form-control(type='text', name='path',required='true', placeholder='Enter file url link')
+               br
+               input.btn-block.btn-primary(type='submit', value='Verify')
        li
          a(href='https://live.blockcypher.com/', target='_blank')
            i.fa.fa-fw.fa-link
@@ -65,7 +113,7 @@ block content
              ol.breadcrumb
                li.active
                  i.fa.fa-info-circle
-                 |  &nbsp Log in to use all Keystamp features !
+                 |  &nbsp Log in to play around with Keystamp features !
      // /.row
      .row.vote-results2
       .col-lg-5.col-md-offset-2
