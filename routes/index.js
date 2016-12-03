@@ -120,6 +120,7 @@ exports.inbox= function (req, res) {
 		res.render('index/login', data);
 	}
 };
+
 exports.upload= function (req, res) {
 	var path = req.body.path
 	var username = "Not logged in";
@@ -129,12 +130,20 @@ exports.upload= function (req, res) {
 	if(req.user) {
 		username = req.user.username;
 		isAlreadyLoggedin = true;
-	
-	request.post({url:BASE_URL+'/upload/'+req.session.uid+'/?token='+req.session.token, form:{
+	if (req.body.key){
+		request.post({url:BASE_URL+'/upload/'+req.session.uid+'/?token='+req.session.token, form:{
+			path: path,
+			key : key
+			}},function (error, response, body) {
+				res.redirect('/upload')
+		})
+	}else{
+		request.post({url:BASE_URL+'/create_document/'+req.session.uid+'/?token='+req.session.token, form:{
 		path: path
 		}},function (error, response, body) {
-			res.redirect('/')
-	})
+			res.redirect('/upload')
+		})
+	}
 	}else{
 	res.redirect('/login')
 	}
@@ -168,6 +177,7 @@ exports.upload_download= function (req, res) {
 
 			var filestream = fs.createReadStream(file);
 			filestream.pipe(res);
+			
 	})
 	
 }
@@ -284,6 +294,96 @@ exports.encrypt = function (req, res) {
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/encrypt'
+		};
+		res.render('index/index', data);
+	}
+};
+exports.upload_file = function (req, res) {
+	console.log(req.session.usr)
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		docs= []
+		txs=[]
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_my_documents/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			docs= JSON.parse(body).docs
+
+		request.get(BASE_URL+'/get_my_tx/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			txs= JSON.parse(body).txs
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/index',
+				documents:  docs,
+				txs:txs,
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess,
+				upload: true
+			};
+		res.render('index/index', data);
+		});
+	});
+		});
+				});
+    }else{
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/login'
+		};
+		res.render('index/login', data);
+	}
+};
+exports.keys= function (req, res) {
+	console.log(req.session.usr)
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/keys',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess
+			};
+		res.render('index/index', data);
+		});
+	});
+	}else{
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/keys'
 		};
 		res.render('index/index', data);
 	}

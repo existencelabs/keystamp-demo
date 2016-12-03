@@ -15,36 +15,17 @@ block content
              a(href='/')
                i.fa.fa-fw.fa-file
                |  Manage documents
-       li.dropdown
-         a.dropdown-toggle(href='#', data-toggle='dropdown')
-           i.fa.fa-key
+       li
+         a(href='/keys')
+           i.fa.fa-fw.fa-key
            |  &nbspManage keys
-           b.caret
-         ul.dropdown-menu
-           li
-             a(href='#')
-               i.fa.fa-fw.fa-key
-               |  Get a public key
-           li
-             a(href='#')
-               i.fa.fa-fw.fa-key
-               |  Get a master key
-           li
-             form(action='#', method='post', accept-charset='utf-8')
-               input.form-control(type='text', name='path',required='true', placeholder='Enter master key')
-               br
-               input.btn-block.btn-primary(type='submit', value='Get derived key')
-           if isAlreadyLoggedin 
-             li
-               form(action='#', method='post', accept-charset='utf-8')
-                 input.form-control(type='text', name='path',required='true', placeholder='Enter public key')
-                 br
-                 input.btn-block.btn-primary(type='submit', value='Associate publick key')
+  
        if isAlreadyLoggedin 
-           li
-             a#upload_document(href='#')
-               i.fa.fa-fw.fa-cloud-upload
-               |  Upload a file
+         li
+           a(href='/upload')
+             i.fa.fa-fw.fa-cloud-upload
+             |  Upload a file
+             
        li
          a(href='/encrypt')
            i.fa.fa-fw.fa-lock
@@ -101,27 +82,7 @@ block content
                  i.fa.fa-info-circle
                  |  &nbsp Log in to play around with Keystamp features !
      // /.row
-     .row.vote-results2
-      .col-lg-5.col-md-offset-2
-        #upload.modal.fade(tabindex='-1', role='dialog', aria-labelledby='contactLabel')
-        .modal-dialog
-         .panel.panel-default
-          .panel-heading
-            button#close2.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-            h4#contactLabel.panel-title
-              span.fa.fa-bug
-              |  Upload a file to be encrypted with sha256 encoding
-          form(action='/upload', method='post', accept-charset='utf-8')
-            .modal-body(style='padding: 5px;')
-              .row
-                .col-lg-12.col-md-12.col-sm-12(style='padding: 3%;')
-                  input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
-            .panel-footer(style='margin-bottom:-14px;')
-              input.btn.btn-primary(type='submit', value='Send')
-              &nbsp
-              input.btn.btn-danger(type='reset', value='Clear')
-              &nbsp
-              button#cancel2.btn.btn-default.btn-close(style='float: right;', type='button', data-dismiss='modal') Close
+
      // /.row
      .row.vote-results
       .col-lg-5.col-md-offset-2
@@ -165,6 +126,28 @@ block content
            a.alert-link(href='https://github.com/existencelabs/keystamp-whitepaper') Keystamp Whitepaper
            |  on Github!
      if isAlreadyLoggedin
+       .row
+         if upload == true
+           .col-lg-10.col-md-offset-2
+             .panel.panel-default
+               .panel-heading
+                 h3.panel-title
+                   i.fa.fa-cloud-upload.fa-fw
+                   |  Upload Documents
+               .panel-body
+                 form(action='/upload', method='post', accept-charset='utf-8')
+                   .modal-body(style='padding: 5px;')
+                       .row
+                       .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                         input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
+                         br
+                         input.form-control(type='text', name='key', placeholder='Enter encryption key (Optional)',style='witdht:100%;')
+                   .panel-footer(style='margin-bottom:-14px;')
+                     input.btn.btn-primary(type='submit', value='Send')
+                     &nbsp
+                     input.btn.btn-default(type='reset', value='Clear')
+                     &nbsp
+                     a.button.btn.btn-default.btn-close(style='float: right;', type='button',href='/' ) Close
        .row
          if page == '/index'
            .col-lg-5.col-md-offset-2
@@ -247,7 +230,7 @@ block content
                        list-group-item.button.btn.btn-block.btn-default(href='#')
                          i.fa.fa-fw.fa-envelope
                          | &nbsp Answer message
-         if page == '/index' || page == '/inbox'
+         if page == '/index' || page == '/inbox' || page == '/upload'
            .col-lg-5
              .panel.panel-default
                .panel-heading
@@ -300,10 +283,11 @@ block content
                h3.panel-title
                  i.fa.fa-pencil-square-o.fa-fw
                  |  Sign Documents
+             .panel-body
                form(action='#', method='post', accept-charset='utf-8')
                  .modal-body(style='padding: 5px;')
                    .row
-                     .col-lg-12.col-md-12.col-sm-12(style='padding: 3%;')
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
                        input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
                        br
                        input.form-control(type='text', name='path',required='true', placeholder='Enter public key ',style='witdht:100%;')
@@ -311,7 +295,16 @@ block content
                    input.btn.btn-primary(type='submit', value='Sign')
                    &nbsp
                    input.btn.btn-default(type='reset', value='Clear')
-
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
+                 i.fa.fa-desktop
+                 |  Console
+             .panel-body(style='background-color:black;color:silver;min-height:100px;')
+               p >> Result message will go here ... 
+               
      if page == '/verify'
        .row
          .col-lg-10.col-md-offset-2
@@ -320,10 +313,11 @@ block content
                h3.panel-title
                  i.fa.fa-check.fa-fw
                  |  Verify Documents
+             .panel-body
                form(action='#', method='post', accept-charset='utf-8')
                  .modal-body(style='padding: 5px;')
                    .row
-                     .col-lg-12.col-md-12.col-sm-12(style='padding: 3%;')
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
                        input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
                        br
                        input.form-control(type='text', name='path',required='true', placeholder='Enter public key ',style='witdht:100%;')
@@ -331,6 +325,15 @@ block content
                    input.btn.btn-primary(type='submit', value='Verify')
                    &nbsp
                    input.btn.btn-default(type='reset', value='Clear')
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
+                 i.fa.fa-desktop
+                 |  Console
+             .panel-body(style='background-color:black;color:silver;min-height:100px;')
+               p >> Result message will go here ... 
      if page == '/encrypt'
        .row
          .col-lg-10.col-md-offset-2
@@ -339,16 +342,64 @@ block content
                h3.panel-title
                  i.fa.fa-check.fa-fw
                  |  Encrypt Documents
+             .panel-body
                form(action='/upload_download', method='post', accept-charset='utf-8')
                  .modal-body(style='padding: 5px;')
                    .row
-                     .col-lg-12.col-md-12.col-sm-12(style='padding: 3%;')
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
                        input.form-control(type='text', name='path',required='true', placeholder='Enter file url link')
                        br
                  .panel-footer(style='margin-bottom:-14px;')
                    input.btn.btn-primary(type='submit', value='Encrypt')
                    &nbsp
                    input.btn.btn-default(type='reset', value='Clear')
+     if page == '/keys'
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
+                 i.fa.fa-key.fa-fw
+                 |  Manage keys
+             .panel-body
+               button.btn-lg.btn-default(type='button',href='#' ) Get a public key
+               &nbsp&nbsp
+               button.btn-lg.btn-default(type='button',href='#' ) Get a private key from our server
+               hr
+               p Get a new private key derived from your key (privateHDkey)
+               form(action='#', method='post', accept-charset='utf-8')
+                 .modal-body(style='padding: 5px;')
+                   .row
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       input.form-control(type='text', name='path',required='true', placeholder='Enter master key')
+                       br
+                   .row
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       input.btn.btn-primary(type='submit', value='Get derived HD keys')
+                       &nbsp
+                       input.btn.btn-default(type='reset', value='Clear')
+               br
+               p Import one of your key for encryption and signing purposes 
+               form(action='#', method='post', accept-charset='utf-8')
+                 .modal-body(style='padding: 5px;')
+                   .row
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       input.form-control(type='text', name='path',required='true', placeholder='Import key to your account for signing/encryption purposes')
+                       br
+                   .row
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       input.btn.btn-primary(type='submit', value='Import key')
+                       &nbsp
+                       input.btn.btn-default(type='reset', value='Clear')
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
+                 i.fa.fa-desktop
+                 |  Console
+             .panel-body(style='background-color:black;color:silver;min-height:100px;')
+               p >> Result message will go here ... 
      if isAlreadyLoggedin != true
        if page == '/index'
          .row
