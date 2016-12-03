@@ -18,6 +18,9 @@ module.exports = function (app) {
 	///////////////////////////
 	app.get('/', index.index);
 	app.get('/inbox', index.inbox);
+	app.get('/sign', index.sign);
+	app.get('/verify', index.verify);
+	app.get('/encrypt', index.encrypt);
 	app.post('/upload', index.upload);
 	app.post('/upload_download', index.upload_download);
 	// auth routes

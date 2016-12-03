@@ -171,3 +171,120 @@ exports.upload_download= function (req, res) {
 	})
 	
 }
+exports.sign = function (req, res) {
+	console.log(req.session.usr)
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/sign',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess
+			};
+		res.render('index/index', data);
+		});
+	});
+	}else{
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/sign'
+		};
+		res.render('index/index', data);
+	}
+};
+exports.verify = function (req, res) {
+	console.log(req.session.usr)
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/verify',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess
+			};
+		res.render('index/index', data);
+		});
+	});
+	}else{
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/verify'
+		};
+		res.render('index/index', data);
+	}
+};
+exports.encrypt = function (req, res) {
+	console.log(req.session.usr)
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/encrypt',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess
+			};
+		res.render('index/index', data);
+		});
+	});
+	}else{
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/encrypt'
+		};
+		res.render('index/index', data);
+	}
+};
