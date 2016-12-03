@@ -102,7 +102,7 @@ exports.inbox= function (req, res) {
 				notes: notes,
 				mess: mess
 			};
-		res.render('index/inbox', data);
+		res.render('index/index', data);
 		});
 	});
 		});
