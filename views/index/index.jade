@@ -35,6 +35,10 @@ block content
            i.fa.fa-fw.fa-pencil-square-o
            |  Sign document
        li
+         a(href='/timestamp')
+           i.fa.fa-fw.fa-tag
+           |  &nbspTimestamp file 
+       li
          a(href='/verify')
            i.fa.fa-fw.fa-check
            |  &nbspVerify document
@@ -98,10 +102,10 @@ block content
               .row
                 .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
                   small Firstname&nbsp
-                  input.form-control(name='firstname', placeholder='Firstname', type='text', required='false', autofocus='')
+                  input.form-control(name='firstname', placeholder='Firstname', type='text', autofocus='')
                 .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
                   small Lastname&nbsp
-                  input.form-control(name='lastname', placeholder='Lastname', type='text', required='false')
+                  input.form-control(name='lastname', placeholder='Lastname', type='text')
               .row
                 .col-lg-12.col-md-12.col-sm-12(style='padding-bottom: 10px;')
                   small E-mail&nbsp
@@ -291,8 +295,23 @@ block content
            .panel.panel-default
              .panel-heading
                h3.panel-title
+                 i.fa.fa-desktop
+                 |  Console
+             .panel-body(style='background-color:black;color:silver;min-height:100px;')
+               if result
+                 p=result
+               else
+                 p >> Result message will go here ... 
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
                  i.fa.fa-pencil-square-o.fa-fw
                  |  Sign Documents
+                 br
+                 small
+                   | Sign a file with a public key, creating a unique signture that can be verified with your key
              .panel-body
                form(action='#', method='post', accept-charset='utf-8')
                  .modal-body(style='padding: 5px;')
@@ -304,11 +323,55 @@ block content
                        br
                        small Enter signing public key&nbsp
                          i.fa.fa-asterisk(style='color:red;')
-                       input.form-control(type='text', name='path',required='true', placeholder='Enter signing public key ',style='witdht:100%;')
+                       input.form-control(type='text', name='key',required='true', placeholder='Enter signing public key ',style='witdht:100%;')
                  .panel-footer(style='margin-bottom:-14px;')
                    input.btn.btn-primary(type='submit', value='Sign')
                    &nbsp
                    input.btn.btn-default(type='reset', value='Clear')
+     if page == '/timestamp'
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
+                 i.fa.fa-desktop
+                 |  Console
+             .panel-body(style='background-color:black;color:silver;min-height:100px;')
+               if result
+                 p=result
+               else
+                 p >> Result message will go here ... 
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
+                 i.fa.fa-pencil-square-o.fa-fw
+                 |  Timestamp Documents
+                 br
+                 small
+                   | Create proof of process from two signed file and the final document
+             .panel-body
+               form(action='#', method='post', accept-charset='utf-8')
+                 .modal-body(style='padding: 5px;')
+                   .row
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       small Enter file url link&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
+                       br
+                       small Enter your signature key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='signature1',required='true', placeholder='Enter your signature',style='witdht:100%;')
+                       br
+                       small Enter second signature key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='signature2',required='true', placeholder='Enter your signature',style='witdht:100%;')
+                 .panel-footer(style='margin-bottom:-14px;')
+                   input.btn.btn-primary(type='submit', value='Timestamp')
+                   &nbsp
+                   input.btn.btn-default(type='reset', value='Clear')
+     if page == '/verify'
        .row
          .col-lg-10.col-md-offset-2
            .panel.panel-default
@@ -318,8 +381,6 @@ block content
                  |  Console
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
                p >> Result message will go here ... 
-               
-     if page == '/verify'
        .row
          .col-lg-10.col-md-offset-2
            .panel.panel-default
@@ -327,6 +388,9 @@ block content
                h3.panel-title
                  i.fa.fa-check.fa-fw
                  |  Verify Documents
+                 br
+                 small
+                   | Verify the integrity of a timestamped filed containing signture and file hash 
              .panel-body
                form(action='#', method='post', accept-charset='utf-8')
                  .modal-body(style='padding: 5px;')
@@ -343,15 +407,7 @@ block content
                    input.btn.btn-primary(type='submit', value='Verify')
                    &nbsp
                    input.btn.btn-default(type='reset', value='Clear')
-       .row
-         .col-lg-10.col-md-offset-2
-           .panel.panel-default
-             .panel-heading
-               h3.panel-title
-                 i.fa.fa-desktop
-                 |  Console
-             .panel-body(style='background-color:black;color:silver;min-height:100px;')
-               p >> Result message will go here ... 
+
      if page == '/encrypt'
        .row
          .col-lg-10.col-md-offset-2
@@ -360,6 +416,9 @@ block content
                h3.panel-title
                  i.fa.fa-check.fa-fw
                  |  Encrypt Documents
+                 br
+                 small
+                   | Encrypt your file on the fly. (aes256)
              .panel-body
                form(action='/upload_download', method='post', accept-charset='utf-8')
                  .modal-body(style='padding: 5px;')
@@ -371,7 +430,7 @@ block content
                        br
                        small Enter public key or password&nbsp
                          i.fa.fa-asterisk(style='color:red;')
-                       input.form-control(type='text', name='path',required='true', placeholder='Enter public key or password')
+                       input.form-control(type='text', name='key',required='true', placeholder='Enter public key or password')
                  .panel-footer(style='margin-bottom:-14px;')
                    input.btn.btn-primary(type='submit', value='Encrypt')
                    &nbsp
@@ -382,8 +441,20 @@ block content
            .panel.panel-default
              .panel-heading
                h3.panel-title
+                 i.fa.fa-desktop
+                 |  Console
+             .panel-body(style='background-color:black;color:silver;min-height:100px;')
+               p=result
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
                  i.fa.fa-key.fa-fw
                  |  Manage keys
+                 br
+                 small
+                   | Manage and create keys on the fly and play around  
              .panel-body
                a.button.btn.btn-lg.btn-default(type='button',href='/get_public_key' ) Get a public key
                &nbsp&nbsp
@@ -422,21 +493,16 @@ block content
                          input.btn.btn-primary(type='submit', value='Import key')
                          &nbsp
                          input.btn.btn-default(type='reset', value='Clear')
-       .row
-         .col-lg-10.col-md-offset-2
-           .panel.panel-default
-             .panel-heading
-               h3.panel-title
-                 i.fa.fa-desktop
-                 |  Console
-             .panel-body(style='background-color:black;color:silver;min-height:100px;')
-               p=result
+
      if isAlreadyLoggedin != true
        if page == '/index'
          .row
            .col-lg-10.col-md-offset-2
              .container-fluid 
                h3(style='color:grey;') Sign In to Keystamp Demo v.1.0.0
+               br
+               small
+                 | Play around with #groups and Derived keys (HDkeys) hierarchy while signed up. 
                br
                form(role='form', action="/login",method="post", style='max-width: 300px;')
                  .form-group

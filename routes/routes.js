@@ -19,7 +19,9 @@ module.exports = function (app) {
 	app.get('/', index.index);
 	app.get('/inbox', index.inbox);
 	app.get('/sign', index.sign);
+	app.post('/sign', index.sign_file);
 	app.get('/verify', index.verify);
+	app.get('/timestamp', index.timestamp);
 	app.get('/encrypt', index.encrypt);
 	app.get('/upload', index.upload_file);
 	app.get('/keys', index.keys);

@@ -44,12 +44,13 @@ app.use(express.static(path.join(__dirname, 'app')));
 
 // routes
 app.use(function(req, res, next) {
-    if(req.user) {
+	// if user is logged configure sessions
+	if(req.user) {
 		if( !req.session.token || !req.session.uid || !req.session.token){
 	Account.findOne({"username": req.user.username}, function(err, usr) {
-
 		if (err || !usr){
 			console.log('user could not be found')
+			res.redirect('/')
 		}
 		req.session.uid = usr.uid
 		req.session.xpub = usr.user_pub_key || 'xpub661MyMwAqRbcEyEs9gV77y1QamusXKgsbahZfALFuzyeYj6aFE1Pu6osg9VDdL3ysYXUf8RrQVhzFotuFDe4ZU9coQhUak88ore5T7JSGmF'
@@ -68,9 +69,20 @@ app.use(function(req, res, next) {
 		next()
 	}
 	}else{
+		// if user is not logged, still log the app
+		if( !req.session.token){
+		request.post({url: BASE_URL+'/auth',form: {app_secret:config.app_secret, app_id: config.app_id}},function (error, response, body) {
+			console.log('app id '+config.app_id)
+			config.token = JSON.parse(body).token
+			req.session.token = JSON.parse(body).token
+			req.session.save()
+		console.log('session token:'+req.session.token )
+		next()
+		});
+	}else{
 		next()
 	}
-	
+	}
 })
 require('./routes/routes')(app);
 
