@@ -85,9 +85,8 @@ block content
 
      // /.row
      .row.vote-results
-      .col-lg-5.col-md-offset-2
-        #contact.modal.fade(tabindex='-1', role='dialog', aria-labelledby='contactLabel')
-        .modal-dialog
+      .col-lg-10.col-md-offset-2
+        .container-fluid
          .panel.panel-default
           .panel-heading
             button#close.close(type='button', data-dismiss='modal', aria-hidden='true') ×
@@ -113,7 +112,7 @@ block content
             .panel-footer(style='margin-bottom:-14px;')
               input.btn.btn-primary(type='submit', value='Send')
               &nbsp
-              input.btn.btn-danger(type='reset', value='Clear')
+              input.btn.btn-default(type='reset', value='Clear')
               &nbsp
               button#cancel.btn.btn-default.btn-close(style='float: right;', type='button', data-dismiss='modal') Close
      .row
