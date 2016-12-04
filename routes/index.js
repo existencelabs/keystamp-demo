@@ -700,6 +700,7 @@ exports.timestamp_file= function (req, res) {
 			}},function (error, response, body) {
 			var txid= JSON.parse(body).txid
 			var result= JSON.parse(body).message
+			var final_hash= JSON.parse(body).final_hash
 			console.log(body)
 			var data = {
 				title: "Keystamp.io",
@@ -709,7 +710,7 @@ exports.timestamp_file= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> '+ result,
+				result: '>> '+ result +'\n'+' >> txid :'+ txid+'\n'+' >> final hash in OP_RETURN :'+ final_hash,
 				txid:txid
 			};
 		res.render('index/index', data);
