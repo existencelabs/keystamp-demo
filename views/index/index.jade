@@ -361,35 +361,39 @@ block content
                  i.fa.fa-key.fa-fw
                  |  Manage keys
              .panel-body
-               button.btn-lg.btn-default(type='button',href='#' ) Get a public key
+               a.button.btn.btn-lg.btn-default(type='button',href='/get_public_key' ) Get a public key
                &nbsp&nbsp
-               button.btn-lg.btn-default(type='button',href='#' ) Get a private key from our server
+               a.button.btn.btn-lg.btn-default(type='button',href='/get_private_key' ) Get a private key from our server
                hr
                p Get a new private key derived from your key (privateHDkey)
-               form(action='#', method='post', accept-charset='utf-8')
+               form(action='/get_derived_key', method='post', accept-charset='utf-8')
                  .modal-body(style='padding: 5px;')
                    .row
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
-                       input.form-control(type='text', name='path',required='true', placeholder='Enter master key')
+                       input.form-control(type='text', name='parent',required='true', placeholder='Enter master key')
                        br
+                       input.form-control(type='text', name='path', placeholder='Enter key current path (if applicable) default to 0')
+                       br
+                       input.form-control(type='text', name='id', placeholder='Enter derivation path number')
                    .row
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
                        input.btn.btn-primary(type='submit', value='Get derived HD keys')
                        &nbsp
                        input.btn.btn-default(type='reset', value='Clear')
                br
-               p Import one of your key for encryption and signing purposes 
-               form(action='#', method='post', accept-charset='utf-8')
-                 .modal-body(style='padding: 5px;')
-                   .row
-                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
-                       input.form-control(type='text', name='path',required='true', placeholder='Import key to your account for signing/encryption purposes')
-                       br
-                   .row
-                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
-                       input.btn.btn-primary(type='submit', value='Import key')
-                       &nbsp
-                       input.btn.btn-default(type='reset', value='Clear')
+               if isAlreadyLoggedin
+                 p Import one of your key for encryption and signing purposes 
+                 form(action='#', method='post', accept-charset='utf-8')
+                   .modal-body(style='padding: 5px;')
+                     .row
+                       .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                         input.form-control(type='text', name='path',required='true', placeholder='Import key to your account for signing/encryption purposes')
+                         br
+                     .row
+                       .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                         input.btn.btn-primary(type='submit', value='Import key')
+                         &nbsp
+                         input.btn.btn-default(type='reset', value='Clear')
        .row
          .col-lg-10.col-md-offset-2
            .panel.panel-default
@@ -398,7 +402,7 @@ block content
                  i.fa.fa-desktop
                  |  Console
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
-               p >> Result message will go here ... 
+               p=result
      if isAlreadyLoggedin != true
        if page == '/index'
          .row

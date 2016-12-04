@@ -23,6 +23,9 @@ module.exports = function (app) {
 	app.get('/encrypt', index.encrypt);
 	app.get('/upload', index.upload_file);
 	app.get('/keys', index.keys);
+	app.get('/get_public_key', index.get_public_key);
+	app.get('/get_private_key', index.get_private_key);
+	app.post('/get_derived_key', index.get_derived_key);
 	app.post('/upload', index.upload);
 	app.post('/upload_download', index.upload_download);
 	// auth routes

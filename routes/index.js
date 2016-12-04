@@ -372,7 +372,8 @@ exports.keys= function (req, res) {
 				page: '/keys',
 				xpub: req.session.xpub,
 				notes: notes,
-				mess: mess
+				mess: mess,
+				result: '>> Result message will go here ... '
 			};
 		res.render('index/index', data);
 		});
@@ -383,8 +384,172 @@ exports.keys= function (req, res) {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
-			page: '/keys'
+			page: '/keys',
+			result: '>> Result message will go here ... '
 		};
 		res.render('index/index', data);
+	}
+};
+exports.get_public_key= function (req, res) {
+	console.log(req.session.usr)
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+		request.get(BASE_URL+'/get_public_key',function (error, response, body) {
+			var key= JSON.parse(body).xpub.x
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/keys',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess,
+				result: '>> publick key: '+key+' successfully created',
+				key :key
+			};
+		res.render('index/index', data);
+		});
+	});
+			});
+	}else{
+		request.get(BASE_URL+'/get_public_key',function (error, response, body) {
+
+			var key= JSON.parse(body).xpub.x
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/keys',
+			result: '>> publick key: '+key+' successfully created',
+			key :key
+		};
+		res.render('index/index', data);
+	})
+	}
+};
+exports.get_private_key= function (req, res) {
+	console.log(req.session.usr)
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+		request.get(BASE_URL+'/get_private_key',function (error, response, body) {
+			var key= JSON.parse(body).xprv
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/keys',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess,
+				result: '>> Private key: '+key+' successfully created',
+				key :key
+			};
+		res.render('index/index', data);
+		});
+	});
+			});
+	}else{
+		request.get(BASE_URL+'/get_private_key',function (error, response, body) {
+		var key= JSON.parse(body).xprv
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/keys',
+			result: '>> Private key: '+key+' successfully created',
+			key :key
+		};
+		res.render('index/index', data);
+	})
+	}
+};
+exports.get_derived_key= function (req, res) {
+	console.log(req.session.usr)
+		var parent = req.body.parent 
+		var current_path = req.body.path || '/m'
+		var id = req.body.id || 0
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+		request.post({url: BASE_URL+'/get_derived_key', form:{
+			path : current_path,
+			id:id,
+			parent:parent
+			}},function (error, response, body) {
+			var key= JSON.parse(body).xprv
+			var path = JSON.parse(body).path
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/keys',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess,
+				result: '>> New derived key: '+key+' created succesfully with path: '+path,
+				key :key,
+				path:path
+			};
+		res.render('index/index', data);
+		});
+	});
+			});
+	}else{
+		request.post({url: BASE_URL+'/get_derived_key', form:{
+			path : current_path,
+			id:id,
+			parent:parent
+			}},function (error, response, body) {
+			var key= JSON.parse(body).xprv
+			var path = JSON.parse(body).path
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/keys',
+			result: '>> New derived key: '+key+' created succesfully with path: '+path,
+			key :key,
+			path:path
+		};
+		res.render('index/index', data);
+	})
 	}
 };

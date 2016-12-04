@@ -22,14 +22,14 @@ footer(style='color:white;')
         .col-lg-6.col-md-offset-1
           h4  Contact Us
           hr
-          .input-append.newsletter-box
-            input.full.form-control(type='email', placeholder='Email ')
-          .input-append.newsletter-box
-            textarea.full.form-control(placeholder='Message',rows='5', maxlength="500")
-            hr
-            button.btn.btn-default(type='button')
-              | info@keystamp.io 
-              i.fa.fa-long-arrow-right   
+          form(action='#', method='post', accept-charset='utf-8')
+            .input-append.newsletter-box
+              input.full.form-control(type='email', placeholder='Email ')
+              br
+              textarea.full.form-control(placeholder='Message',rows='5', maxlength="500")
+              hr
+              input.btn.btn-primary(type='submit', value='info@keystamp.io') 
+t   
       // /.row
     // /.container
   // /.footer
