@@ -624,7 +624,7 @@ exports.sign_file= function (req, res) {
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/sign',
-			result: '>> Public key is not in a valid format . PLease try again. ',
+			result: '>> Public key is not in a valid format (Base64). PLease try again. ',
 			key :key,
 			path:path
 		};
@@ -669,6 +669,83 @@ exports.timestamp= function (req, res) {
 			page: '/timestamp',
 			result: '>> Results will go here ...',
 
+		};
+		res.render('index/index', data);
+}
+};
+exports.timestamp_file= function (req, res) {
+	console.log(req.session.usr)
+	var path = req.body.path
+	var signature1 = req.body.signature1 
+	var signature2 = req.body.signature2
+	var re = new RegExp("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$");
+	if (re.test(signature1) && re.test(signature2)){
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+		request.post({url: BASE_URL+'/notarize?token='+req.session.token, form:{
+			path : path,
+			signature1:signature1,
+			signature2:signature2
+			}},function (error, response, body) {
+			var txid= JSON.parse(body).txid
+			var result= JSON.parse(body).message
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/timestamp',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess,
+				result: '>> '+ result,
+				txid:txid
+			};
+		res.render('index/index', data);
+		});
+	});
+			});
+	}else{
+		request.post({url: BASE_URL+'/notarize?token='+req.session.token, form:{
+			path : path,
+			signature1:signature1,
+			signature2:signature2
+			}},function (error, response, body) {
+			var txid= JSON.parse(body).txid
+			var result= JSON.parse(body).message
+			console.log(body)
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/timestamp',
+			result: '>> '+ result,
+			txid :txid
+		};
+		res.render('index/index', data);
+	})
+	}
+}else{
+			var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/sign',
+			result: '>> Signatures are not in a valid format (Base64). PLease try again. ',
+			key :key,
+			path:path
 		};
 		res.render('index/index', data);
 }

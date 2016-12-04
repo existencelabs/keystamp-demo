@@ -22,6 +22,7 @@ module.exports = function (app) {
 	app.post('/sign', index.sign_file);
 	app.get('/verify', index.verify);
 	app.get('/timestamp', index.timestamp);
+	app.post('/timestamp', index.timestamp_file);
 	app.get('/encrypt', index.encrypt);
 	app.get('/upload', index.upload_file);
 	app.get('/keys', index.keys);
