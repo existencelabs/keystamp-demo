@@ -29,7 +29,7 @@ block content
        li
          a(href='/encrypt')
            i.fa.fa-fw.fa-lock
-           |  &nbspEncrypt file (sha256)
+           |  &nbspEncrypt file 
        li
          a(href='/sign')
            i.fa.fa-fw.fa-pencil-square-o
@@ -97,18 +97,26 @@ block content
             .modal-body(style='padding: 5px;')
               .row
                 .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
-                  input.form-control(name='firstname', placeholder='Firstname', type='text', required='', autofocus='')
+                  small Firstname&nbsp
+                  input.form-control(name='firstname', placeholder='Firstname', type='text', required='false', autofocus='')
                 .col-lg-6.col-md-6.col-sm-6(style='padding-bottom: 10px;')
-                  input.form-control(name='lastname', placeholder='Lastname', type='text', required='')
+                  small Lastname&nbsp
+                  input.form-control(name='lastname', placeholder='Lastname', type='text', required='false')
               .row
                 .col-lg-12.col-md-12.col-sm-12(style='padding-bottom: 10px;')
-                  input.form-control(name='email', placeholder='E-mail', type='text', required='')
+                  small E-mail&nbsp
+                    i.fa.fa-asterisk(style='color:red;')
+                  input.form-control(name='email', placeholder='E-mail', type='text', required='true')
               .row
                 .col-lg-12.col-md-12.col-sm-12(style='padding-bottom: 10px;')
-                  input.form-control(name='subject', placeholder='Subject', type='text', required='')
+                  small Subject&nbsp
+                    i.fa.fa-asterisk(style='color:red;')
+                  input.form-control(name='subject', placeholder='Subject', type='text', required='true')
               .row
                 .col-lg-12.col-md-12.col-sm-12
-                  textarea.form-control(style='resize:vertical;', placeholder='Message...', rows='6', name='comment', required='')
+                  small Message &nbsp
+                    i.fa.fa-asterisk(style='color:red;')
+                  textarea.form-control(style='resize:vertical;', placeholder='Message...', rows='6', name='comment', required='true')
             .panel-footer(style='margin-bottom:-14px;')
               input.btn.btn-primary(type='submit', value='Send')
               &nbsp
@@ -138,8 +146,11 @@ block content
                    .modal-body(style='padding: 5px;')
                        .row
                        .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                         small Enter file url link&nbsp
+                           i.fa.fa-asterisk(style='color:red;')
                          input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
                          br
+                         small Enter encryption key&nbsp
                          input.form-control(type='text', name='key', placeholder='Enter encryption key (Optional)',style='witdht:100%;')
                    .panel-footer(style='margin-bottom:-14px;')
                      input.btn.btn-primary(type='submit', value='Send')
@@ -287,9 +298,13 @@ block content
                  .modal-body(style='padding: 5px;')
                    .row
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       small Enter file url link&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
                        input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
                        br
-                       input.form-control(type='text', name='path',required='true', placeholder='Enter public key ',style='witdht:100%;')
+                       small Enter signing public key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='path',required='true', placeholder='Enter signing public key ',style='witdht:100%;')
                  .panel-footer(style='margin-bottom:-14px;')
                    input.btn.btn-primary(type='submit', value='Sign')
                    &nbsp
@@ -317,9 +332,13 @@ block content
                  .modal-body(style='padding: 5px;')
                    .row
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       small Enter file url link&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
                        input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
                        br
-                       input.form-control(type='text', name='path',required='true', placeholder='Enter public key ',style='witdht:100%;')
+                       small Enter signature key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='path',required='true', placeholder='Enter signature key ',style='witdht:100%;')
                  .panel-footer(style='margin-bottom:-14px;')
                    input.btn.btn-primary(type='submit', value='Verify')
                    &nbsp
@@ -346,8 +365,13 @@ block content
                  .modal-body(style='padding: 5px;')
                    .row
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       small Enter file url link&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
                        input.form-control(type='text', name='path',required='true', placeholder='Enter file url link')
                        br
+                       small Enter public key or password&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='path',required='true', placeholder='Enter public key or password')
                  .panel-footer(style='margin-bottom:-14px;')
                    input.btn.btn-primary(type='submit', value='Encrypt')
                    &nbsp
@@ -370,11 +394,15 @@ block content
                  .modal-body(style='padding: 5px;')
                    .row
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       small Enter master key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
                        input.form-control(type='text', name='parent',required='true', placeholder='Enter master key')
                        br
-                       input.form-control(type='text', name='path', placeholder='Enter key current path (if applicable) default to 0')
+                       small Enter HDkey current derivation path
+                       input.form-control(type='text', name='path', placeholder='Enter HDkey current derivation path (if applicable [default to "/m"])')
                        br
-                       input.form-control(type='text', name='id', placeholder='Enter derivation path number')
+                       small Enter new devivation path id
+                       input.form-control(type='text', name='id', placeholder='Enter new devivation path id (Must be digits [default to 0] )')
                    .row
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
                        input.btn.btn-primary(type='submit', value='Get derived HD keys')
