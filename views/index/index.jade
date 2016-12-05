@@ -300,7 +300,8 @@ block content
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
                if result.length > 0
                  each val,index in result
-                   p #{val}
+                   if index < 6
+                     p #{val}
                else
                  p >> Result message will go here ... 
        .row
@@ -340,7 +341,8 @@ block content
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
                if result.length > 0
                  each val,index in result
-                   p #{val}
+                   if index < 6
+                     p #{val}
                else
                  p >> Result message will go here ... 
        .row
@@ -384,7 +386,8 @@ block content
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
                if result.length > 0
                  each val,index in result
-                   p #{val}
+                   if index < 6
+                     p #{val}
                else
                  p >> Result message will go here ... 
        .row
@@ -438,7 +441,7 @@ block content
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
                        small Enter your hash key&nbsp
                          i.fa.fa-asterisk(style='color:red;')
-                       input.form-control(type='text', name='signature2',required='true', placeholder='Enter your hash ',style='witdht:100%;')
+                       input.form-control(type='text', name='hash',required='true', placeholder='Enter your hash ',style='witdht:100%;')
                        br
                        small Enter #txid  key&nbsp
                          i.fa.fa-asterisk(style='color:red;')
@@ -485,7 +488,8 @@ block content
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
                if result.length > 0
                  each val,index in result
-                   p #{val}
+                   if index < 6
+                     p #{val}
                else
                  p >> Result message will go here ... 
        .row
