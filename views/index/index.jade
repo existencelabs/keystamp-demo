@@ -380,19 +380,22 @@ block content
                  i.fa.fa-desktop
                  |  Console
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
-               p >> Result message will go here ... 
+               if result
+                 p=result
+               else
+                 p >> Result message will go here ... 
        .row
          .col-lg-10.col-md-offset-2
            .panel.panel-default
              .panel-heading
                h3.panel-title
                  i.fa.fa-check.fa-fw
-                 |  Verify Documents
+                 |  Verify Documents with signature, url and txid
                  br
                  small
-                   | Verify the integrity of a timestamped filed containing signture and file hash 
+                   | Verify the integrity of a timestamped file with file url, both signatures and the txid 
              .panel-body
-               form(action='#', method='post', accept-charset='utf-8')
+               form(action='/verify_by_signature', method='post', accept-charset='utf-8')
                  .modal-body(style='padding: 5px;')
                    .row
                      .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
@@ -400,14 +403,47 @@ block content
                          i.fa.fa-asterisk(style='color:red;')
                        input.form-control(type='text', name='path',required='true', placeholder='Enter file url link ',style='witdht:100%;')
                        br
-                       small Enter signature key&nbsp
+                       small Enter first signature key&nbsp
                          i.fa.fa-asterisk(style='color:red;')
-                       input.form-control(type='text', name='path',required='true', placeholder='Enter signature key ',style='witdht:100%;')
+                       input.form-control(type='text', name='signature1',required='true', placeholder='Enter signature key ',style='witdht:100%;')
+                       br
+                       small Enter second signature key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='signature2',required='true', placeholder='Enter signature key ',style='witdht:100%;')
+                       br
+                       small Enter #txid  key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='txid',required='true', placeholder='Enter #txid ',style='witdht:100%;')
                  .panel-footer(style='margin-bottom:-14px;')
                    input.btn.btn-primary(type='submit', value='Verify')
                    &nbsp
                    input.btn.btn-default(type='reset', value='Clear')
-
+       .row
+         .col-lg-10.col-md-offset-2
+           .panel.panel-default
+             .panel-heading
+               h3.panel-title
+                 i.fa.fa-check.fa-fw
+                 |  Verify Documents with the final hash
+                 br
+                 small
+                   | Verify the integrity of a timestamped with a specific hash 
+             .panel-body
+               form(action='/verify_by_hash', method='post', accept-charset='utf-8')
+                 .modal-body(style='padding: 5px;')
+                   .row
+                     .col-lg-12.col-md-12.col-sm-12(style='padding: 1%;')
+                       small Enter your hash key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='signature2',required='true', placeholder='Enter your hash ',style='witdht:100%;')
+                       br
+                       small Enter #txid  key&nbsp
+                         i.fa.fa-asterisk(style='color:red;')
+                       input.form-control(type='text', name='txid',required='true', placeholder='Enter #txid ',style='witdht:100%;')
+                 .panel-footer(style='margin-bottom:-14px;')
+                   input.btn.btn-primary(type='submit', value='Verify')
+                   &nbsp
+                   input.btn.btn-default(type='reset', value='Clear')
      if page == '/encrypt'
        .row
          .col-lg-10.col-md-offset-2

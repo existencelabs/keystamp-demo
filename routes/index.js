@@ -711,7 +711,8 @@ exports.timestamp_file= function (req, res) {
 				notes: notes,
 				mess: mess,
 				result: '>> '+ result +'\n'+' >> txid :'+ txid+'\n'+' >> final hash in OP_RETURN :'+ final_hash,
-				txid:txid
+				txid:txid,
+				final_hash:final_hash
 			};
 		res.render('index/index', data);
 		});
@@ -725,6 +726,7 @@ exports.timestamp_file= function (req, res) {
 			}},function (error, response, body) {
 			var txid= JSON.parse(body).txid
 			var result= JSON.parse(body).message
+			var final_hash= JSON.parse(body).final_hash
 			console.log(body)
 		// else load default index
 		var data = {
@@ -733,7 +735,170 @@ exports.timestamp_file= function (req, res) {
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/timestamp',
 			result: '>> '+ result,
-			txid :txid
+			txid :txid,
+			final_hash:final_hash
+		};
+		res.render('index/index', data);
+	})
+	}
+}else{
+			var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/sign',
+			result: '>> Signatures are not in a valid format (Base64). PLease try again. ',
+			key :key,
+			path:path
+		};
+		res.render('index/index', data);
+}
+};
+exports.verify_file_signature= function (req, res) {
+	console.log(req.session.usr)
+	var txid = req.body.txid
+	var path = req.body.path
+	var signature1 = req.body.signature1 
+	var signature2 = req.body.signature2
+	var re = new RegExp("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$");
+	if (re.test(signature1) && re.test(signature2)){
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+		request.post({url: BASE_URL+'/verify_by_signature?token='+req.session.token, form:{
+			path : path,
+			txid:txid,
+			signature1:signature1,
+			signature2:signature2
+			}},function (error, response, body) {
+			var txid= JSON.parse(body).txid
+			var result= JSON.parse(body).message
+			var final_hash= JSON.parse(body).final_hash
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/verify',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess,
+				result: '>> '+ result,
+				txid:txid,
+				final_hash:final_hash
+			};
+		res.render('index/index', data);
+		});
+	});
+			});
+	}else{
+		request.post({url: BASE_URL+'/verify?token='+req.session.token, form:{
+			path : path,
+			signature1:signature1,
+			signature2:signature2
+			}},function (error, response, body) {
+			var txid= JSON.parse(body).txid
+			var result= JSON.parse(body).message
+			var final_hash= JSON.parse(body).final_hash
+			console.log(body)
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/verify',
+			result: '>> '+ result,
+			txid :txid,
+			final_hash:final_hash
+		};
+		res.render('index/index', data);
+	})
+	}
+}else{
+			var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/sign',
+			result: '>> Signatures are not in a valid format (Base64). PLease try again. ',
+			key :key,
+			path:path
+		};
+		res.render('index/index', data);
+}
+};
+exports.verify_file_hash= function (req, res) {
+	console.log(req.session.usr)
+	var txid = req.body.txid
+	var hash = req.body.hash
+	var re = new RegExp("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$");
+	if (re.test(signature1) && re.test(signature2)){
+	var username = "Not logged in";
+	var isAlreadyLoggedin = false;
+	var uid = null
+	// if the user is logged in  so fetch the necessary data
+	if(req.user) {
+		username = req.user.username;
+		isAlreadyLoggedin = true;
+		notes =[]
+		mess= []
+		request.get(BASE_URL+'/get_notifications/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			notes= JSON.parse(body).notification
+		request.get(BASE_URL+'/get_messages_inbox/'+req.session.uid+'/?token='+req.session.token,function (error, response, body) {
+			mess= JSON.parse(body).mess
+		request.post({url: BASE_URL+'/verify_by_hash?token='+req.session.token, form:{
+			hash : hash,
+			txid:txid
+			}},function (error, response, body) {
+			var txid= JSON.parse(body).txid
+			var result= JSON.parse(body).message
+			var final_hash= JSON.parse(body).final_hash
+			console.log(body)
+			var data = {
+				title: "Keystamp.io",
+				username: username,
+				isAlreadyLoggedin:isAlreadyLoggedin,
+				page: '/verify',
+				xpub: req.session.xpub,
+				notes: notes,
+				mess: mess,
+				result: '>> '+ result,
+				txid:txid,
+				final_hash:final_hash
+			};
+		res.render('index/index', data);
+		});
+	});
+			});
+	}else{
+		request.post({url: BASE_URL+'/verify?token='+req.session.token, form:{
+			path : path,
+			signature1:signature1,
+			signature2:signature2
+			}},function (error, response, body) {
+			var txid= JSON.parse(body).txid
+			var result= JSON.parse(body).message
+			var final_hash= JSON.parse(body).final_hash
+			console.log(body)
+		// else load default index
+		var data = {
+			title: "Keystamp.io",
+			username: username,
+			isAlreadyLoggedin:isAlreadyLoggedin,
+			page: '/verify',
+			result: '>> '+ result,
+			txid :txid,
+			final_hash:final_hash
 		};
 		res.render('index/index', data);
 	})
