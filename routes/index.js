@@ -208,7 +208,8 @@ exports.sign = function (req, res) {
 				page: '/sign',
 				xpub: req.session.xpub,
 				notes: notes,
-				mess: mess
+				mess: mess,
+				result: result
 			};
 		res.render('index/index', data);
 		});
@@ -219,7 +220,8 @@ exports.sign = function (req, res) {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
-			page: '/sign'
+			page: '/sign',
+			result:result
 		};
 		res.render('index/index', data);
 	}
@@ -247,7 +249,8 @@ exports.verify = function (req, res) {
 				page: '/verify',
 				xpub: req.session.xpub,
 				notes: notes,
-				mess: mess
+				mess: mess,
+				result: result
 			};
 		res.render('index/index', data);
 		});
@@ -258,7 +261,8 @@ exports.verify = function (req, res) {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
-			page: '/verify'
+			page: '/verify',
+			result:result
 		};
 		res.render('index/index', data);
 	}
@@ -286,7 +290,8 @@ exports.encrypt = function (req, res) {
 				page: '/encrypt',
 				xpub: req.session.xpub,
 				notes: notes,
-				mess: mess
+				mess: mess,
+				result: result
 			};
 		res.render('index/index', data);
 		});
@@ -297,7 +302,8 @@ exports.encrypt = function (req, res) {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
-			page: '/encrypt'
+			page: '/encrypt',
+			result:result
 		};
 		res.render('index/index', data);
 	}
@@ -522,6 +528,7 @@ exports.get_derived_key= function (req, res) {
 			var key= JSON.parse(body).xprv
 			var path = JSON.parse(body).path
 			console.log(body)
+			result.push('>> New derived key: '+key+' created succesfully with path: "'+path+'"')
 			var data = {
 				title: "Keystamp.io",
 				username: username,
@@ -530,7 +537,7 @@ exports.get_derived_key= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> New derived key: '+key+' created succesfully with path: "'+path+'"',
+				result: result,
 				key :key,
 				path:path
 			};
@@ -547,12 +554,13 @@ exports.get_derived_key= function (req, res) {
 			var key= JSON.parse(body).xprv
 			var path = JSON.parse(body).path
 		// else load default index
+		result.push('>> New derived key: '+key+' created succesfully with path: "'+path+'"')
 		var data = {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/keys',
-			result: '>> New derived key: '+key+' created succesfully with path: "'+path+'"',
+			result: result,
 			key :key,
 			path:path
 		};
@@ -584,7 +592,7 @@ exports.sign_file= function (req, res) {
 			key:key
 			}},function (error, response, body) {
 			var key= JSON.parse(body).key
-			var result= JSON.parse(body).message
+			result.push(JSON.parse(body).message)
 			console.log(body)
 			var data = {
 				title: "Keystamp.io",
@@ -594,7 +602,7 @@ exports.sign_file= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> '+ result,
+				result: result,
 				key :key,
 				path:path
 			};
@@ -608,14 +616,14 @@ exports.sign_file= function (req, res) {
 			key:key
 			}},function (error, response, body) {
 			var key= JSON.parse(body).key
-			var result= JSON.parse(body).message
+			result.push(JSON.parse(body).message)
 		// else load default index
 		var data = {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/sign',
-			result: '>> '+ result,
+			result: result,
 			key :key,
 			path:path
 		};
@@ -623,12 +631,13 @@ exports.sign_file= function (req, res) {
 	})
 	}
 }else{
+			result.push('>> Public key is not in a valid format (Base64) or not a public key. ')
 			var data = {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/sign',
-			result: '>> Public key is not in a valid format (Base64). PLease try again. ',
+			result: result,
 			key :key,
 			path:path
 		};
