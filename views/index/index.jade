@@ -298,8 +298,9 @@ block content
                  i.fa.fa-desktop
                  |  Console
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
-               if result
-                 p=result
+               if result.length > 0
+                 each val,index in result
+                   p #{val}
                else
                  p >> Result message will go here ... 
        .row
@@ -337,8 +338,9 @@ block content
                  i.fa.fa-desktop
                  |  Console
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
-               if result
-                 p=result
+               if result.length > 0
+                 each val,index in result
+                   p #{val}
                else
                  p >> Result message will go here ... 
        .row
@@ -380,8 +382,9 @@ block content
                  i.fa.fa-desktop
                  |  Console
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
-               if result
-                 p=result
+               if result.length > 0
+                 each val,index in result
+                   p #{val}
                else
                  p >> Result message will go here ... 
        .row
@@ -480,7 +483,11 @@ block content
                  i.fa.fa-desktop
                  |  Console
              .panel-body(style='background-color:black;color:silver;min-height:100px;')
-               p=result
+               if result.length > 0
+                 each val,index in result
+                   p #{val}
+               else
+                 p >> Result message will go here ... 
        .row
          .col-lg-10.col-md-offset-2
            .panel.panel-default

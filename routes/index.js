@@ -15,6 +15,7 @@ config = require('../config.js');
 var path = require('path');
 var mime = require('mime');
 var fs= require('fs')
+var result = ['>> Results will go here ... ']
 
 exports.index = function (req, res) {
 	console.log(req.session.usr)
@@ -376,7 +377,7 @@ exports.keys= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> Result message will go here ... '
+				result: result
 			};
 		res.render('index/index', data);
 		});
@@ -388,7 +389,7 @@ exports.keys= function (req, res) {
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/keys',
-			result: '>> Result message will go here ... '
+			result: result
 		};
 		res.render('index/index', data);
 	}
@@ -411,6 +412,7 @@ exports.get_public_key= function (req, res) {
 		request.get(BASE_URL+'/get_public_key'+'?token='+req.session.token,function (error, response, body) {
 			var key= JSON.parse(body).xpub.x
 			console.log(body)
+			result.push('>> publick key: '+key+' successfully created')
 			var data = {
 				title: "Keystamp.io",
 				username: username,
@@ -419,7 +421,7 @@ exports.get_public_key= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> publick key: '+key+' successfully created',
+				result: result,
 				key :key
 			};
 		res.render('index/index', data);
@@ -428,15 +430,15 @@ exports.get_public_key= function (req, res) {
 			});
 	}else{
 		request.get(BASE_URL+'/get_public_key'+'?token='+req.session.token,function (error, response, body) {
-
-			var key= JSON.parse(body).xpub.x
+		var key= JSON.parse(body).xpub.x
 		// else load default index
+		result.push('>> publick key: '+key+' successfully created')
 		var data = {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/keys',
-			result: '>> publick key: '+key+' successfully created',
+			result: result ,
 			key :key
 		};
 		res.render('index/index', data);
@@ -461,6 +463,7 @@ exports.get_private_key= function (req, res) {
 		request.get(BASE_URL+'/get_private_key'+'?token='+req.session.token,function (error, response, body) {
 			var key= JSON.parse(body).xprv
 			console.log(body)
+			result.push('>> Private key: '+key+' successfully created')
 			var data = {
 				title: "Keystamp.io",
 				username: username,
@@ -469,7 +472,7 @@ exports.get_private_key= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> Private key: '+key+' successfully created',
+				result: result,
 				key :key
 			};
 		res.render('index/index', data);
@@ -480,12 +483,13 @@ exports.get_private_key= function (req, res) {
 		request.get(BASE_URL+'/get_private_key'+'?token='+req.session.token,function (error, response, body) {
 		var key= JSON.parse(body).xprv
 		// else load default index
+		result.push('>> Private key: '+key+' successfully created')
 		var data = {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/keys',
-			result: '>> Private key: '+key+' successfully created',
+			result: result,
 			key :key
 		};
 		res.render('index/index', data);
@@ -656,7 +660,7 @@ exports.timestamp= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> Results will go here ...',
+				result: result,
 			};
 		res.render('index/index', data);
 		});
@@ -667,7 +671,7 @@ exports.timestamp= function (req, res) {
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/timestamp',
-			result: '>> Results will go here ...',
+			result: result ,
 
 		};
 		res.render('index/index', data);
@@ -699,7 +703,7 @@ exports.timestamp_file= function (req, res) {
 			signature2:signature2
 			}},function (error, response, body) {
 			var txid= JSON.parse(body).txid
-			var result= JSON.parse(body).message
+			result.push(JSON.parse(body).message)
 			var final_hash= JSON.parse(body).final_hash
 			console.log(body)
 			var data = {
@@ -710,7 +714,7 @@ exports.timestamp_file= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> '+ result +'\n'+' >> txid :'+ txid+'\n'+' >> final hash in OP_RETURN :'+ final_hash,
+				result: result ,
 				txid:txid,
 				final_hash:final_hash
 			};
@@ -725,7 +729,7 @@ exports.timestamp_file= function (req, res) {
 			signature2:signature2
 			}},function (error, response, body) {
 			var txid= JSON.parse(body).txid
-			var result= JSON.parse(body).message
+			result.push(JSON.parse(body).message)
 			var final_hash= JSON.parse(body).final_hash
 			console.log(body)
 		// else load default index
@@ -734,7 +738,7 @@ exports.timestamp_file= function (req, res) {
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/timestamp',
-			result: '>> '+ result,
+			result: result,
 			txid :txid,
 			final_hash:final_hash
 		};
@@ -742,12 +746,13 @@ exports.timestamp_file= function (req, res) {
 	})
 	}
 }else{
+			result.push( '>> Signatures are not in a valid format (Base64). PLease try again. ')
 			var data = {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/sign',
-			result: '>> Signatures are not in a valid format (Base64). PLease try again. ',
+			result: result,
 			key :key,
 			path:path
 		};
@@ -782,7 +787,7 @@ exports.verify_file_signature= function (req, res) {
 			signature2:signature2
 			}},function (error, response, body) {
 			var txid= JSON.parse(body).txid
-			var result= JSON.parse(body).message
+			result.push(JSON.parse(body).message)
 			var final_hash= JSON.parse(body).final_hash
 			console.log(body)
 			var data = {
@@ -793,7 +798,7 @@ exports.verify_file_signature= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> '+ result,
+				result: result,
 				txid:txid,
 				final_hash:final_hash
 			};
@@ -808,7 +813,7 @@ exports.verify_file_signature= function (req, res) {
 			signature2:signature2
 			}},function (error, response, body) {
 			var txid= JSON.parse(body).txid
-			var result= JSON.parse(body).message
+			result.push(JSON.parse(body).message)
 			var final_hash= JSON.parse(body).final_hash
 			console.log(body)
 		// else load default index
@@ -817,7 +822,7 @@ exports.verify_file_signature= function (req, res) {
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/verify',
-			result: '>> '+ result,
+			result: result,
 			txid :txid,
 			final_hash:final_hash
 		};
@@ -825,12 +830,13 @@ exports.verify_file_signature= function (req, res) {
 	})
 	}
 }else{
+			result.push('>> Signatures are not in a valid format (Base64). PLease try again. ')
 			var data = {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/sign',
-			result: '>> Signatures are not in a valid format (Base64). PLease try again. ',
+			result: result,
 			key :key,
 			path:path
 		};
@@ -861,7 +867,7 @@ exports.verify_file_hash= function (req, res) {
 			txid:txid
 			}},function (error, response, body) {
 			var txid= JSON.parse(body).txid
-			var result= JSON.parse(body).message
+			result.push(JSON.parse(body).message)
 			var final_hash= JSON.parse(body).final_hash
 			console.log(body)
 			var data = {
@@ -872,7 +878,7 @@ exports.verify_file_hash= function (req, res) {
 				xpub: req.session.xpub,
 				notes: notes,
 				mess: mess,
-				result: '>> '+ result,
+				result: result,
 				txid:txid,
 				final_hash:final_hash
 			};
@@ -887,7 +893,7 @@ exports.verify_file_hash= function (req, res) {
 			signature2:signature2
 			}},function (error, response, body) {
 			var txid= JSON.parse(body).txid
-			var result= JSON.parse(body).message
+			result.push(JSON.parse(body).message)
 			var final_hash= JSON.parse(body).final_hash
 			console.log(body)
 		// else load default index
@@ -896,7 +902,7 @@ exports.verify_file_hash= function (req, res) {
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/verify',
-			result: '>> '+ result,
+			result: result,
 			txid :txid,
 			final_hash:final_hash
 		};
@@ -904,14 +910,15 @@ exports.verify_file_hash= function (req, res) {
 	})
 	}
 }else{
+			result.push( '>> Signatures are not in a valid format (Base64). PLease try again. ')
 			var data = {
 			title: "Keystamp.io",
 			username: username,
 			isAlreadyLoggedin:isAlreadyLoggedin,
 			page: '/sign',
-			result: '>> Signatures are not in a valid format (Base64). PLease try again. ',
-			key :key,
-			path:path
+			result:result,
+			key : key,
+			path: path
 		};
 		res.render('index/index', data);
 }
