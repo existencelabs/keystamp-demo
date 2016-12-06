@@ -50,6 +50,7 @@ module.exports = function (app) {
 		phone: "123",
 		role: ""
 		}},function (error, response, body) {
+			console.log(body)
 			var uid = JSON.parse(body).uid
       Account.register(new Account({ username : req.body.username, uid:uid }), req.body.password, function(err, account) {
         if (err) {
