@@ -42,11 +42,19 @@ module.exports = function (app) {
 	    res.render('index/register', {title:" Register" });
 	});
 	app.post('/register', function(req, res, next) {
-      Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+		request.post({url:BASE_URL+'/create_user?token='+req.session.token, form:{
+		name: "jp" ,
+		email:req.body.email,
+		phone: "123",
+		role: ""
+		}},function (error, response, body) {
+			var uid = JSON.parse(body).uid
+      Account.register(new Account({ username : req.body.username, uid:uid }), req.body.password, function(err, account) {
         if (err) {
           return res.render("index/register", {info: "Sorry. That username already exists. Try again."});
         }
 
+		
         passport.authenticate('local')(req, res, function () {
             req.session.save(function (err) {
                if (err) {
@@ -55,6 +63,7 @@ module.exports = function (app) {
 				res.redirect('/'); 
            });
         });
+        })
    });
    });
 
