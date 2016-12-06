@@ -12,6 +12,8 @@ var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
 var request = require('request')
+var result = []
+var BASE_URL = config.api
 module.exports = function (app) {
 
 	//Main routes
