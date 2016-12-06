@@ -49,12 +49,13 @@ header
                 i.fa.fa-bell
                 b.caret
               ul.dropdown-menu.message-dropdown
-                - var r = 0
-                each val,index in notes
-                  .text-right
-                    a(href='#')
-                      | Dismiss 
-                      i.fa.fa-arrow-circle-right
+                if notes
+                  - var r = 0
+                  each val,index in notes
+                    .text-right
+                      a(href='#')
+                        | Dismiss 
+                        i.fa.fa-arrow-circle-right
 
                   li.message-preview
                     a(href='#')
